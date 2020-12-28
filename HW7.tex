@@ -1,0 +1,616 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW7}
+\end{center}
+박성빈, 수학과, 20202120
+
+\begin{enumerate}
+    \item[(a)] Let's give group action $\textrm{SL}_2\mathbb{R}$ to $\mathbb{H} = \{x+iy:x,y\in \mathbb{R}, y>0\}$ by
+    \begin{equation}
+        \begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix}\cdot z = \frac{az+b}{cz+d}.
+    \end{equation}
+    Writing $z=x+iy$, we get
+    \begin{equation}\label{HW6:1_2}
+    \begin{split}
+        \frac{az+b}{cz+d} &= \frac{ax+b+iay}{cx+d+icy}\\
+        &=\frac{(ax+b+iay)(cx+d-icy)}{(cx+d)^2+(cy)^2}\\
+        &=\frac{(ax+b)(cx+d)+acy^2}{(cx+d)^2+(cy)^2} + i\frac{(ad-bc)y}{(cx+d)^2+(cy)^2}
+    \end{split}
+    \end{equation}
+    Since $ad-bc = 1$, the result of group action returns to $\mathbb{H}$. Also, This is well-defined group action since
+    \begin{equation}
+            I\cdot z = \frac{z}{1}=z,
+    \end{equation}
+    and
+    \begin{equation}
+        \begin{split}
+            \begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix}\begin{pmatrix}
+            e & f\\
+            g & h
+        \end{pmatrix}\cdot z &= \begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix}\cdot \frac{ez+f}{gz+h}\\
+        &=\frac{a\frac{ez+f}{gz+h}+b}{c\frac{ez+f}{gz+h}+d}\\
+        &=\frac{(ae+bg)z+af+bh}{(ce+dg)z+cf + hd}\\
+        &=\begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix}\cdot\left(\begin{pmatrix}
+            e & f\\
+            g & h
+        \end{pmatrix}\cdot z\right)
+        \end{split}
+    \end{equation}
+    
+    For $z=\alpha+\beta i\in \mathrm{SL}_2\mathbb{R}$, we get
+    \begin{equation}
+        \begin{pmatrix}
+            1 & \alpha\\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \sqrt{\beta} & 0\\
+            0 & 1/\sqrt{\beta}
+        \end{pmatrix}
+        \cdot i = \begin{pmatrix}
+            1 & \alpha\\
+            0 & 1
+        \end{pmatrix}\cdot (\beta i) = \alpha + \beta i = z.
+    \end{equation}
+    Therefore, the action is transitive. Computing the stabilizer of $i$, we get
+    \begin{equation}
+        ai+b = i(ci+d) = -c+di
+    \end{equation}
+    with $ad-bc = 1$.$a^2+b^2 = 1$. Therefore, by setting $a=\cos\theta$ and $b=-\sin\theta$, we get
+    \begin{equation}
+        \begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix} =\begin{pmatrix}
+            \cos\theta & -\sin \theta\\
+            \sin\theta & \cos\theta
+        \end{pmatrix}
+    \end{equation}
+    which is $\textrm{SO}_2\mathbb{R}$. Therefore, we can take a map $f:\mathrm{SL}_2\mathbb{R}/\mathrm{SO}_2\mathbb{R}\rightarrow \mathbb{H}$ such that
+    \begin{equation}
+        f(A) = A\cdot i.
+    \end{equation}
+    This is a linear map in the sense that multiplication in $\mathrm{SO}_2\mathbb{R}\rightarrow \mathbb{H}$ is the composition of M\"obius transform. Since $\mathrm{SL}_2\mathbb{R}$ acts transitively on $\mathbb{H}$, $f$ is surjective and since the kernel is $\mathrm{SO}_2\mathbb{R}$, $f$ is injective, which shows the isomorphism as a set. Therefore, $\mathrm{SL}_2\mathbb{R}/\mathrm{SO}_2\mathbb{R}\simeq \mathbb{H}$.
+    
+    Now, I'll find a fundamental domain for $\mathrm{SL}_2\mathbb{Z}$ on $\mathbb{H}$. 
+    \begin{proposition}
+        A set
+        \begin{equation}
+        F=\{z=x+iy\in\mathbb{H}:-\frac{1}{2}\leq \abs{x}<1/2, \abs{z}>1\}\cup \{z=x+iy\in\mathbb{H}:\abs{x}\leq 0, \abs{z}=1\}
+        \end{equation}
+        is a fundamental domain for $\mathrm{SL}_2\mathbb{Z}$ on $\mathbb{H}$.
+    \end{proposition}
+    \begin{proof}
+    I'll first show that
+    \begin{equation}\label{HW6:1_4}
+        \cup_{\gamma\in \mathrm{SL}_2\mathbb{Z}}\gamma(F) = \mathbb{H}.
+    \end{equation}
+    To show this, I'll first show that for any $z=x+iy\in \mathbb{H}$, there exists $\gamma\in \mathrm{SL}_2\mathbb{Z}$ such that $\gamma(z)\in F$. Note that for $\begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\in\mathrm{SL}_2\mathbb{Z}$,
+    \begin{equation}
+        \Im\left(\begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\cdot z\right) = \frac{y}{\abs{cz+d}^2}
+    \end{equation}
+    by \eqref{HW6:1_2}. Since $x,y$ are fixed and $c,d\in\mathbb{Z}$, as $c,d\rightarrow \infty$, $\abs{cz+d}^2\rightarrow \infty$, so there exists $c_0,d_0\in\mathbb{Z}$ making $\frac{y}{\abs{c_0z+d_0}^2}$ takes maximum value for each $z$. Also, note that the maximum value is not $\infty$ since $\abs{c_0z+d_0}=0$ means that $z=0$. Choose one of such element in $\mathrm{SL}_2\mathbb{Z}$ and denote it $\gamma$. Since $\Im(\gamma\cdot z)$ has maximum value for orbit of $\mathrm{SL}_2\mathbb{Z}$, we get
+    \begin{equation}
+        \Im\left(\begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\cdot (\gamma\cdot z)\right)= \frac{\Im(\gamma\cdot z)}{\abs{c(\gamma\cdot z)+d}^2}\leq\Im(\gamma\cdot z) 
+    \end{equation}
+    for any $\begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\in\mathrm{SL}_2\mathbb{Z}$, which shows that $\abs{c(\gamma\cdot z)+d}\geq 1$ for any $c,d\in\mathbb{Z}$ in the matrix. Now, let's adjust the $\gamma$ by considering
+    \begin{equation}
+        \gamma' = \begin{pmatrix}
+            1 & n\\ 0 & 1
+        \end{pmatrix}\gamma
+    \end{equation},
+    which shift $\gamma\cdot z$ by $n$ along $x$ axis. This does not change the imaginary part, so we can take $n$ making $-1/2\leq x<1/2$ with maxium $\Im (\gamma\cdot z)$. Again applying the argument above for $\begin{pmatrix}
+        0 & -1 \\ 1 & 0
+    \end{pmatrix}$, we also get $\abs{\gamma' z}\geq 1$. Furthermore, if $\abs{z}=1$ with $x>0$, then $z\mapsto -1/z$ maps to $\abs{z}=1$ with $x<0$. Therefore, for any point $z\in \mathbb{H}$, there exists $\gamma\in\mathrm{SL}_2\mathbb{Z}$ such that $\gamma\cdot z\in F$ and it shows \eqref{HW6:1_4}.
+    
+    Now, I'll prove the uniqueness part: Assume there exists $z,w\in F$ and a $\gamma=\begin{pmatrix}
+        a & b\\ c & d
+    \end{pmatrix}\in\mathrm{SL}_2\mathbb{Z}$ such that $w=\gamma\cdot z$. To show $z=w$, I need to investigate the $\gamma$. 
+    \begin{lemma}
+    For above case, $\abs{cz+d}\geq 1$ and equality holds only if
+    \begin{enumerate}
+        \item[1.] For $c=\pm 1$, $d=0$ with $\abs{z}=1$, or $x=-1/2$ with $d=\pm 1$, or
+        \item[2.] $c=0$.
+    \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+    I'll divide the case for $\abs{c}$. For $\abs{c}\geq 2$,
+    \begin{equation}
+        \begin{split}
+            \abs{cz+d}^2&=(cx+d)^2+(cy)^2 = c^2(x^2+y^2)+2cdx+d^2\geq c^2(x^2+y^2)-\abs{cd}+d^2 \\
+            &= c^2(\abs{z}^2-1/4)+\frac{c^2}{4}-\abs{cd}+d^2\geq c^2(\abs{z}^2-1/4)\geq 4\abs{z}^2-1,
+        \end{split}
+    \end{equation}
+    so $\abs{cz+d}>1$.
+    
+    If $c=\pm 1$, then 
+    \begin{equation}
+        \abs{cz+d}^2=\pm 2xd+d^2+\abs{z}^2\geq -\abs{d}+d^2+1\geq 1
+    \end{equation}
+    and equality holds only if $d=0$ with $\abs{z}=1$, or $x=-1/2$ with $d=\pm 1$. For $d=0$, $\gamma$ can be rewritten as
+    \begin{equation}
+        \begin{pmatrix}
+            n & \mp 1\\
+            \pm 1 & 0
+        \end{pmatrix}
+    \end{equation}
+    with $n\in\mathbb{Z}$. Such action maps $z\mapsto n-1/z$. If $x=-1/2$, still strict inequality holds except $d=0,\pm 1$.
+    
+    If $c=0$, then $d=\pm 1$. In this case $\gamma$ can be
+    \begin{equation}
+        \begin{pmatrix}
+            \pm 1 & n\\
+            0 & \pm 1
+        \end{pmatrix},
+    \end{equation}
+    which is just translation along $x$ by $n$, and $\abs{cz+d}=1$.
+    \end{proof}
+    
+    Now, let's prove the main result. If $\abs{c}\geq 2$, then it is impossible since $\Im w< \Im z$ and $\Im z\leq \Im w$. (Note that $\gamma^{-1}\in\mathrm{SL}_2\mathbb{Z}$.) If $\abs{c}=1$, then to avoid the previous contradiction, we need to force $d=0$ with $\abs{z}=1$ or $x=-1/2$ (for $z=x+iy$) with $d=\pm 1$. If $d=0$, then $\abs{z}=1$ and since $\gamma$ acts by $z\mapsto n-1/z$, the only possible way is $z=-1/2+\sqrt{3}i/2$ and $n=-1$, which means $z=w$. $d=-1$ is impossible to satisfy $\abs{cz+d}=1$ and for $d=1$, $z=-1/2+\sqrt{3}i/2=w$ for the same reason.
+    
+    Now, assume $c=0$. Then automatically $w = z\pm n$ for some $n\in\mathbb{Z}$, and $n=0$ since $-1/2\leq\Re z,\Re w<1/2$. Therefore, $z=w$. It ends the proof.
+    \end{proof}
+    
+    \item[2] I'll first focus on the Iwasawa decomposition for $g\in \textrm{GL}_2(\mathbb{R})$.
+    \begin{proposition}
+    For any $g\in \textrm{GL}_2(\mathbb{R})$, it uniquely decomposed as
+    \begin{equation}\label{HW8:2_1}
+        g=\begin{pmatrix}
+            1 & x\\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            y & 0\\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \cos\theta & \sin\theta \\
+            -\sin\theta & \cos \theta
+        \end{pmatrix}
+        \begin{pmatrix}
+            \pm 1 & 0\\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            r & 0\\
+            0 & r
+        \end{pmatrix},
+    \end{equation}
+    with $x\in \mathbb{R}$, $y,r>0$, $0\leq \theta<2\pi$, and $\pm$ is depends on the sign of $\det g$.
+    \end{proposition}
+    \begin{proof}
+    I'll show that any $g=\begin{pmatrix}
+        a & b\\ c & d
+    \end{pmatrix}\in \mathrm{SL}_2\mathbb{R}$ have the unique decomposition
+    \begin{equation}
+    \begin{pmatrix}
+                1 & x\\
+                0 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                \sqrt{y} & 0\\
+                0 & 1/\sqrt{y}
+            \end{pmatrix}
+            \begin{pmatrix}
+                \cos\theta & \sin\theta \\
+                -\sin\theta & \cos \theta
+            \end{pmatrix}.
+    \end{equation}
+    By taking $y=(c^2+d^2)^{-1}$, $\theta$ satisfying $\cos\theta = d\sqrt{y}$ and $\sin\theta = -c\sqrt{y}$, we get
+    \begin{equation}
+         \begin{pmatrix}
+                1/\sqrt{c^2+d^2} & 0\\
+                0 & \sqrt{c^2+d^2}
+            \end{pmatrix}
+            \begin{pmatrix}
+                d/\sqrt{c^2+d^2} & -c/\sqrt{c^2+d^2} \\
+                c/\sqrt{c^2+d^2} & d/\sqrt{c^2+d^2}
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+               d/(c^2+d^2) & -c/(c^2+d^2)\\
+               c & d
+            \end{pmatrix}.
+    \end{equation}
+    Now, by choosing $x$ satisfying $d/(c^2+d^2)+cx = a$ and $-c/(c^2+d^2)+dx = b$, i.e. $(c^2+d^2)x = ac+bd$, we get the decomposition. It proves existence part.
+    
+    I'll check the uniqueness. Let's assume there exists $x',y',\theta'$ satisfying the decomposition. Now, we get
+    \begin{equation}
+            \begin{pmatrix}
+                1/\sqrt{y} & 0\\
+                0 & \sqrt{y}
+            \end{pmatrix}\begin{pmatrix}
+                1 & -x+x'\\
+                0 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                \sqrt{y'} & 0\\
+                0 & 1/\sqrt{y'}
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                \cos(\theta-\theta') & \sin(\theta-\theta') \\
+                -\sin(\theta-\theta') & \cos (\theta-\theta')
+            \end{pmatrix}.
+    \end{equation}
+    Note that the $(1,2)$, i.e. left down entry, is $0$ and $(2,2)$ is $\sqrt{y/y'}$ in LHS. Therefore, $\theta=\theta'$ and $y=y'$, and it subsequently implies $x=x'$. It proves the uniqueness.
+    
+    Returing to $\mathrm{GL}_2\mathbb{R}$ case, take the unique decomposition of $g\begin{pmatrix}
+        1/\sqrt{\abs{\det g}} & 0 \\ 0 & 1/\sqrt{\abs{\det g}}
+    \end{pmatrix}\begin{pmatrix}
+        \pm 1 & 0 \\ 0 & 1
+    \end{pmatrix}$ in $\mathrm{SL}_2\mathbb{R}$, which the sign $\pm$ depends on the sign of $\det g$, and take inverse of the latter matrices. In this case, we get
+    \begin{equation}
+        g = \begin{pmatrix}
+                1 & x\\
+                0 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y & 0\\
+                0 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                \cos\theta & \sin\theta \\
+                -\sin\theta & \cos \theta
+            \end{pmatrix}\begin{pmatrix}
+        \pm 1 & 0 \\ 0 & 1
+    \end{pmatrix}\begin{pmatrix}
+        1/\sqrt{y\abs{\det g}} & 0 \\ 0 & 1/\sqrt{y\abs{\det g}}
+    \end{pmatrix}
+    \end{equation}
+    It shows the existence, and uniqueness of such decomposition easily follows from the uniqueness of $\mathrm{SL}_2\mathbb{R}$.
+    \end{proof}
+    In geometric sense as in problem (1), especially for $\mathrm{SL}_2\mathbb{R}$, it is just the restatement of what $\mathrm{SL}_2\mathbb{R}/\mathrm{SO}_2\mathbb{R}$ is just multiplication of resizing operator and shifting operator about $x$.
+    
+    Now, I'll check the $p$-adic Iwasawa decomposition. First, let's introduce
+    \begin{equation}
+        K_p = \mathrm{GL}_2\mathbb{Z}_p = \left\{\begin{pmatrix}
+            a & b\\
+            c & d
+        \end{pmatrix}:a,b,c,d\in\mathbb{Z}_p,\abs{ad-bc}_p=1\right\}.
+    \end{equation}
+    \begin{proposition}
+    Every $g\in\mathrm{GL}_2\mathbb{Q}_p$ has a unique decomposition
+    \begin{equation}
+        g = \begin{pmatrix}
+            1 & u \\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\
+            0 & p^{e_2}
+        \end{pmatrix}k
+    \end{equation}
+    where $e_1,e_2\in\mathbb{Z}$, $u=\sum_{l=-N}^{e_1-e_2-1}u_lp^l$, with $N\in\mathbb{Z}$, $0\leq u_l<p$, and $k\in K_p$.(From \textit{Automorphic Representations and L-Functions for the General Linear Group}, Goldfeld, Dorian)
+    \end{proposition}
+    \begin{proof}
+    If $\abs{d}_p\geq \abs{c}_p$, take
+    \begin{equation}
+        (k')^{-1}=\begin{pmatrix}
+            dp^\alpha & 0\\ -cp^\alpha & 1
+        \end{pmatrix}
+    \end{equation}
+    where $\alpha\in\mathbb{Z}$ making $dp^\alpha,cp^\alpha\in\mathbb{Z}_p$ with $dp^{\alpha}\in\mathbb{Z}^\times_p$. Otherwise, let
+    \begin{equation}
+        (k')^{-1}=\begin{pmatrix}
+            0 & 1\\ 1 & 0
+        \end{pmatrix}\begin{pmatrix}
+            cp^\alpha & 0\\ -dp^\alpha & 1
+        \end{pmatrix}
+    \end{equation}
+    where $\alpha\in\mathbb{Z}$ making $dp^\alpha,cp^\alpha\in\mathbb{Z}_p$ with $cp^{\alpha}\in\mathbb{Z}^\times_p$. Using such $(k')^{-1}$, we can make
+    \begin{equation}
+        g(k')^{-1} = \begin{pmatrix}
+            t_1 & u't_2\\
+            0 & t_2
+        \end{pmatrix}
+        =\begin{pmatrix}
+            1 & u'\\
+            0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            t_1 & 0\\
+            0 & t_2
+        \end{pmatrix}
+    \end{equation}
+    with $u',t_1,t_2\in\mathbb{Q}_p$. Now, take $\epsilon_1,\epsilon_2\in\mathbb{Z}_p^\times$ such that $t_i = \epsilon_i p^{e_i}$, then we get
+    \begin{equation}
+        \begin{pmatrix}
+            t_1 & 0\\
+            0 & t_2
+        \end{pmatrix} = \begin{pmatrix}
+            p^{e_1} & 0\\
+            0 & p^{e_2}
+        \end{pmatrix}\begin{pmatrix}
+            \epsilon_1 & 0\\
+            0 & \epsilon_2
+        \end{pmatrix}
+    \end{equation}
+    and $\begin{pmatrix}
+            \epsilon_1 & 0\\
+            0 & \epsilon_2
+        \end{pmatrix}\in K_p$. It follows
+        \begin{equation}
+            g = \begin{pmatrix}
+            1 & u'\\
+            0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            p^{e_1} & 0\\
+            0 & p^{e_2}
+        \end{pmatrix}\begin{pmatrix}
+            \epsilon_1 & 0\\
+            0 & \epsilon_2
+        \end{pmatrix}k'
+        \end{equation}
+        
+    Since $u'\in\mathbb{Q}_p$, there exists $N\in\mathbb{Z}$ such
+    \begin{equation}
+        u' = \sum_{l=-N}^\infty u_l p^l
+    \end{equation}
+    with $0\leq u_l<p$. Also, we can rewrite $u'$ by
+    \begin{equation}
+        u' = u+\sum_{l=e_1-e_2}^\infty u_l p^l
+    \end{equation}
+    where $u = \sum_{l=-N}^{e_1-e_2-1}u_lp^l$. (If $e_1-e_2\leq -N$, just set $u=0$ and $u_l=0$ from $l=e_1-e_2 - 1$ to $l=-N-1$.) Consequently,
+    \begin{equation}
+        \begin{pmatrix}
+            1 & u' \\ 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\ 0 & p^{e_2}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1 & u \\ 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            1 & \sum_{l=e_1-e_2}^\infty u_lp^l \\ 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\ 0 & p^{e_2}
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1 & u \\ 0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\ 0 & p^{e_2}
+        \end{pmatrix}\cdot k''
+    \end{equation}
+    where
+    \begin{equation}
+        k''=\begin{pmatrix}
+            1 & p^{e_2-e_1}\sum_{l=e_1-e_2}^\infty u_lp^l \\ 0 & 1
+        \end{pmatrix}\in K_p.
+    \end{equation}
+    Therefore, by taking 
+    \begin{equation}
+        k=k''\begin{pmatrix}
+            \epsilon_1 & 0\\
+            0 & \epsilon_2
+        \end{pmatrix}k'\in K_p,
+    \end{equation}
+    we prove the existence of such Iwasawa decomposition.
+    
+    Now, I'll show the uniqueness part. Assume there exists $u'=\sum_{l=-N'}^{e_1'-e_2'-1}u_l' p^l$, $0\leq u_l'<p$, $e_1',e_2'\in\mathbb{Z}$, and $k'\in K_p$, making
+    \begin{equation}
+        g = \begin{pmatrix}
+            1 & u \\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\
+            0 & p^{e_2}
+        \end{pmatrix}k = \begin{pmatrix}
+            1 & u' \\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1'} & 0 \\
+            0 & p^{e_2'}
+        \end{pmatrix}k',
+    \end{equation}
+    then
+    \begin{equation}
+    \begin{split}
+        \begin{pmatrix}
+            p^{-e'_1} & 0 \\
+            0 & p^{-e'_2}
+        \end{pmatrix}\begin{pmatrix}
+            1 & (u-u') \\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            p^{e_1} & 0 \\
+            0 & p^{e_2}
+        \end{pmatrix} &=\begin{pmatrix}
+            p^{e_1-e_1'} & p^{e_2-e_1'}(u-u') \\
+            0 & p^{e_2-e_2'}
+        \end{pmatrix}\\
+        &=k'k^{-1}\in K_p.
+    \end{split}
+    \end{equation}
+    
+    To make $\det \begin{pmatrix}
+            p^{e_1-e_1'} & p^{e_2-e_1'}(u-u') \\
+            0 & p^{e_2-e_2'}
+        \end{pmatrix} = p^{e_1-e_1'}p^{e_2-e_2'}\in \mathbb{Z}_p^\times$ with $p^{e_1-e_1'}, p^{e_2-e_2'}\in\mathbb{Z}_p$, we should impose $e_1=e_1'$ and $e_2=e_2'$. Also,
+        \begin{equation}
+            p^{e_2-e_1'}(u-u') = p^{e_2-e_1'}(\sum_{l=-N}^{e_1-e_2-1}u_lp^l-\sum_{l=-N'}^{e'_1-e'_2-1}u'_lp^l)\in\mathbb{Z}_p
+        \end{equation}
+        implies that $u=u'$ since $l+e_2-e_1\leq -1$ for $l\leq e_1-e_2-1$, so $u_{l_1}=u_{l_2}'$ if $l_1=l_2$. Since $k'k^{-1}=I$, $k=k'$, which ends the proof of the uniqueness part.
+    \end{proof}
+    
+    Now, the Iwasawa decomposition for $\mathbb{A}_\mathbb{Q}$ case is follows from $\mathbb{R}$ case and $\mathbb{Q}_p$ case. For any $g\in \mathrm{GL}_2\mathbb{A}_\mathbb{Q}$, there exists finite index set $S$ such that for $v\not\in S$, $g_v \in K_v$. By the uniqueness of Iwasawa decomposition at $\mathrm{GL}_2\mathbb{Q}_v$, we get a unique decomposition
+    \begin{equation}
+        g_v = \begin{pmatrix}
+            1 & 0\\
+            0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            1 & 0\\
+            0 & 1
+        \end{pmatrix}g_v
+    \end{equation}
+    for $s\not\in S$, so we can safely state the following proposition.
+    \begin{proposition}
+    Every $g\in\mathrm{GL}_2\mathbb{A}_\mathbb{Q}$ can be uniquely written in the form
+    \begin{equation}
+        g=\begin{pmatrix}
+            1 & x\\
+            0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            y & 0\\
+            0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            r & 0\\
+            0 & r
+        \end{pmatrix}\cdot k
+    \end{equation}
+    where $x=\{x_\infty, \ldots, x_p, \ldots\}\in\mathbb{A}_\mathbb{Q}$, $y=\{y_\infty, \ldots, y_p,\ldots\}\in \mathbb{A}_\mathbb{Q}^\times$, $r=\{r_\infty, \ldots, r_p, \ldots\}\in\mathbb{A}_\mathbb{Q}^\times$, and $k=\{k_\infty, \ldots, k_p,\ldots\}\in K$ with $K=\mathrm{O}_2\mathbb{R}\cdot \prod_{p}\mathrm{GL}_2\mathbb{Z}_p$. Furthermore, $r_\infty, y_\infty>0$, $r_p=p^{e_2(p)}$, $y_p=e^{e_1(p)-e_2(p)}$, and
+    \begin{equation}
+        x_p = \sum_{l=-N}^{e_1(p)-e_2(p)-1}u_l(p)p^l
+    \end{equation}
+    with $e_1(p),e_2(p),N\in\mathbb{Z}$, $0\leq u_l(p)<p$. (From \textit{Automorphic Representations and L-Functions for the General Linear Group}, Goldfeld, Dorian)
+    \end{proposition}
+    \begin{proof}
+    $\mathbb{R}$ case is trivial and for each $p<\infty$, just take $y_p = p^{e_1(p)-e_2(p)}$, and $r = p^{e_2(p)}$.
+    \end{proof}
+\end{enumerate}
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

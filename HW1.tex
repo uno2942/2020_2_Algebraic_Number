@@ -1,0 +1,171 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW1}
+\end{center}
+박성빈, 수학과, 20202120
+
+\noindent \textbf{1}
+Let's review the induced topology on $\mathbb{Z}_p$. I'll use $\pi_n$ be a projection from 
+$\prod_{i=1}^\infty \quotZ{i}$ to $\quotZ{n}$ and $\theta_{n+1}:\quotZ{n+1}\rightarrow \quotZ{n}$ be a natural surjection.
+
+$\mathbb{Z}_p$ is defined by $\{x\in \prod_{i=1}^\infty \quotZ{i} : \pi_n(x) = (\theta_{n+1}\circ \pi_{n+1})(x) \textrm{ for all } n\}$. As a subset of $\prod_{i=1}^\infty \quotZ{i}$, whose topology is given by product topology, it has the induced topology. Let the topology $\mathcal{T}_1$.
+
+To check the metric topology on $\mathbb{Z}_p$, I'll first show that $d(x,y) = \abs{x-y}_p$ is the well-defined metric on $\mathbb{Z}_p$. I'll first construct absolute value on $\mathbb{Z}_p$. Define $\abs{x}_p$ for $x\in \mathbb{Z}_p$ by the follows: for all $x\neq 0$, there exists a maximum integer $N$ such that $\pi_i(x) = 0$ for all natural number $1\leq i < N$. For such $N$, define $\abs{x}_p = p^{-N+1}$ and if $x=0$, set $\abs{x}_p = 0$. It is a well defined function since if $x=y$ in $\mathbb{Z}_p$, then $\pi_n(x) = \pi_n(y)$ for all $n$, so $\abs{x}_p = \abs{y}_p$. Also, if $x\neq 0$, then $N\geq 1$, so $\abs{x}_p$ is non-negative, so $\abs{x}_p = 0$ if and only if $x=0$. For $x,y\in\mathbb{Z}_p$, $\abs{xy}_p = \abs{x}_p\abs{y}_p$; by denoting $x = \sum_{i=k_1}^\infty a_i p^i$ and $y = \sum_{i=k_2}^\infty b_i p^i$ for $a_i, b_i\in \{0, 1, \ldots, p-1\}$ with $a_{k_1}b_{k_2}\neq 0$, we get $\pi_i(xy) = 0$ for all $i<k_1k_2$ and $\pi_{k_1k_2}(xy) = a_{k_1}b_{k_2}$. Finally, it satisfies triangle inequality since the number of zeros from the front of $x+y$ is at least the number of $x$ and $y$.
+
+Using $\abs{\cdot}_p$, we get well-defined metric $d(\cdot,\cdot)$ on $\mathbb{Z}_p$. Let the metric topology $\mathcal{T}_2$.
+
+Now, I'll show that two topologies are equivalent.  
+\begin{enumerate}
+    \item[$\mathcal{T}_1\subset \mathcal{T}_2$] Choose an open set $U$ in $\mathcal{T}_1$ and take a point $x\in \mathbb{Z}_p$ in $U$. As the induced topology of product topology on $\prod_{i=1}^\infty \quotZ{i}$, there exists an open set $V$ in $\prod_{i=1}^\infty \quotZ{i}$ such that $V\cap \mathbb{Z}_p = U$ with $N$ satisfying $\pi_i(V) = \quotZ{i}$ for all $i\geq N$. For such $N$, take $\epsilon = p^{-N}$, then for any $y\in B(x, \epsilon)$, it means $\pi_i(x)=\pi_i(y)$ for all $i<N+1$, so $y\in V\cap \mathbb{Z}_p = U$.
+    \item[$\mathcal{T}_2\subset \mathcal{T}_1$] Choose a point $x$ and basis $B(x, \epsilon)$ in $\mathcal{T}_2$. Since $\epsilon>0$ there exists $N$ such that $p^{-N}<\epsilon$. For such $N$, take an open set $V$ in $\prod_{i=1}^\infty \quotZ{i}$ by 
+    \begin{equation}
+        V = \{\pi_1(x)\}\times \{\pi_2(x)\}\times \cdots \{\pi_N(x)\}\times \quotZ{N+1}\times \quotZ{N+2}\times \cdots.
+    \end{equation}
+    (Note that $\quotZ{i}$ has discrete topology.) $V\cap \mathbb{Z}_p$ is contained in $B(x,\epsilon)$ since for any $y\in V\cap \mathbb{Z}_p$, $d(x,y) \leq p^{-N}<\epsilon$.
+\end{enumerate}
+
+
+\noindent \textbf{2}
+I'll first show that $\mathbb{Q}_p$ is a topological group. Since $\mathbb{Z}_p$ is an integral domain, $\mathbb{Q}_p$ is well-defined as the quotient field of $\mathbb{Z}_p$. If I give an absolute value on $\mathbb{Q}_p$ by $\abs{\frac{a}{b}}_p = \abs{a}_p/\abs{b}_p$ for $b\neq 0$, then it is a well-defined and satisfies the properties of absolute value. Let's give metric topology on $\mathbb{Q}_p$. I'll show that addition and multiplication on $\mathbb{Q}_p$ is continuous.
+
+\begin{enumerate}
+    \item[$f_1(a,b): a+b$] Fix a basis $V = B(c, \epsilon)$, $\epsilon>0$, in $\mathbb{Q}_p$ and consider $U=f_1^{-1}(V)$ in $\mathbb{Q}_p\times \mathbb{Q}_p$. Choose a point in $(a,b)\in U$ and $-N\in \mathbb{N}$ such that $B(f_1(a,b), p^{N})\subset V$. My claim is the image of $B(a, p^{N-1})\times B(b, p^{N-1})$ of $f$ is in $V$; for $(x,y)\in B(a, p^{N-1})\times B(b, p^{N-1})$, $$d(f_1(x,y), f_1(a,b)) = \abs{(x-a)+(y-b)}_p\leq \max(\abs{x-a}_p, \abs{y-b}_p)\leq p^{N-1}.$$
+
+    \item[$f_2(a,b):ab$] Reuse the above notation and set the neighborhood of $(a,b)$ by $$B\left(a, \frac{p^{\floor{N/2}-1}}{\max(\abs{b}_p, 1)}\right)\times B\left(b, \frac{p^{\floor{N/2}-1}}{\max(\abs{a}_p, 1)}\right),$$ then for $(x,y)$ in the set, $$d(f_2(x,y), f_2(a,b)) = \abs{(x-a)y+a(y-b)}_p\leq \max(\abs{x-a}_p\abs{y}_p, \abs{a}_p\abs{y-b}_p).$$
+    
+    It can be easily shown that $\abs{a}_p\abs{y-b}_p\leq p^{N-1}$, so I'll bound the $\abs{x-a}_p\abs{y}_p$. Since $$\abs{y}_p\leq \max(\abs{y-b}_p, \abs{b}_p)\leq \max\left(\frac{p^{\floor{N/2}-1}}{\max(\abs{a}_p, 1)}, \abs{b}_p\right)$$, we get $$\abs{x-a}_p\abs{y}_p = \max\left(\frac{p^{\floor{N/2}-1}}{\max(\abs{b}_p, 1)} \frac{p^{\floor{N/2}-1}}{\max(\abs{a}_p, 1)}, \frac{p^{\floor{N/2}-1}}{\max(\abs{b}_p, 1)}\abs{b}_p\right)\leq p^{N-1}.$$
+    
+\end{enumerate}
+(Inverse map도 continuous인 걸 보여야 하는데 까먹었습니다..)
+
+Therefore, $\mathbb{Q}_p$ is a topological group(in fact, topological ring).
+
+Finally, I'll show that this is a locally compact space. As a topological group, it is enough to show the local compactness for $0$. Set $U = C = B(0,3/2) = \{x\in \mathbb{Q}_p:\abs{x}\leq 1\}$, then it is open. Let $i:\mathbb{Z}_p\rightarrow \mathbb{Q}_p$ with natural injection, then $i$ is continuous since the induced topology on $\mathbb{Z}_p$ is same as metric topology which was given in problem 1. Since $\mathbb{Z}_p$ is compact by Tychonoff theorem, $i(\mathbb{Z}_p)$ is again compact in $\mathbb{Q}_p$, but it is same as $C$. Therefore, $\mathbb{Q}_p$ is locally compact.
+\\
+
+
+
+\noindent \textbf{3} I first show that $\mathbb{A}_\mathbb{Q}$ has a ring structure. I'll use $\pi_v$, $v\in\{1,2,\ldots, \infty\}$, for projection onto $\mathbb{Q}_v$ by seeing $\mathbb{Z}_v$ as a subset of $\mathbb{Q}_v$. For any $x,y\in \mathbb{A}_\mathbb{Q}$, there exists finite index $S$ such that $\pi_v(x)$ and $\pi_v(y)$ are in $\mathbb{Z}_v$ for $v\in S^c$. Therefore, by giving addition operation and multiplication as in the product ring of $\mathbb{Q}_v$, we get $x-y,xy\in \mathbb{A}_\mathbb{Q}$ with $1 = (1,1,\ldots)$. It shows $\mathbb{A}_\mathbb{Q}$ is a ring.
+
+I'll show that $\mathbb{A}_\mathbb{Q}$ is a topological ring: choose a basis of product topology $B = V\times \prod_{p\notin S}\mathbb{Z}_p$ in $\mathbb{A}_\mathbb{Q}$ with finite index set $S$ and open set $V$ in $\prod_{v\in S}\mathbb{Q}_v$. I already showed that addition and multiplication is a continuous function in $\mathbb{Q}_v$, so in each operation, the inverse of $V$, which I'll write $U$, is open in $(\prod_{v\in S}\mathbb{Q}_v)\times (\prod_{v\in S}\mathbb{Q}_v)$. I claim that the image of $(U\times \prod_{p\notin S}\mathbb{Z}_p)\times(U\times \prod_{p\notin S}\mathbb{Z}_p)$ is contained in $V$ in each function, but it is trivial since each operation is coordinate by coordinate. Therefore, $\mathbb{A}_\mathbb{Q}$ is a topological ring.
+
+To show locally compactness, choose a point $p\in \mathbb{A}_\mathbb{Q}$. Since $\mathbb{Q}_p$ is locally compact for each $p$, finite product of the set is again locally compact, so there exists an open set $p\in U\times \prod_{p\notin S}\mathbb{Z}_p$ and a compact set $C$ such that $U\subset C$ in $\prod_{v\in S}\mathbb{Q}_v$ for finite index set $S$. By Tychonoff theorem, $C\times \prod_{p\notin S}\mathbb{Z}_p$ is compact. Therefore, $\mathbb{A}_\mathbb{Q}$ is locally compact.
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

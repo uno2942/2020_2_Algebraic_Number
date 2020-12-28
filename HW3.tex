@@ -1,0 +1,154 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW3}
+\end{center}
+박성빈, 수학과, 20202120
+
+\noindent \textbf{1}
+Let $\theta_n:\mathbb{Z}\rightarrow \mathbb{Z}/p^n\mathbb{Z}$ by $1\mapsto [1]$ and $\pi_n:\mathbb{Z}_p\rightarrow \mathbb{Z}/p^n\mathbb{Z}$ by the projection onto $n$th coordinate.
+
+Choose a point $x\in \mathbb{Z}_p$. For any $\epsilon>0$, there exists $N$ such that $p^{-N}<\epsilon$. For such $N$, there exists $X\in\mathbb{Z}$ such that $[X] = \pi_{N+1}(x)$. Since $\pi_j(x) = \theta_j(X)$ for $j\leq N$, $d(i(X), x)\leq p^{-N}<\epsilon$. Therefore, the inclusion $\mathbb{Z}$ in $\mathbb{Z}_p$ has a dense image.
+
+\noindent \textbf{2}
+$\pi_n$ is indeed surjective and the map $f:\mathbb{Z}_p\rightarrow\mathbb{Z}_p$ by $f(x) = p^n\cdot x$ is injective since $p^n\cdot(x-y) = 0$ implies $x=y$ in $\mathbb{Z}_p$. Therefore, I need to show the exactness at $\mathbb{Z}_p$.
+
+The image of $f$ is contained in the kernel of $\pi_n$ since $f$ acts on $x\in\mathbb{Z}_p$ by shifting to right by $n$ coordinate, so $\pi_n(f(x)) = 0$. Conversely, if $y\in\mathbb{Z}_p$ is contained the kernel of $\pi_n$, then it means $\pi_i(y) = 0$ for all $i\leq n$. Let's construct $x\in \mathbb{Z}_p$ as following: for $\pi_i(y) = \sum_{j=n}^{i-1} a_j p^j$ for $i> n$ with $0\leq a_j<p$, set $\pi_{i-n}(x) = \sum_{j=0}^{i-n-1} a_{n+j} p^j$. Then $x$ is indeed in $\mathbb{Z}_p$ as $\pi_i(y) = \sum_{j=n}^{i-1} a_j p^j = p^n\left(\sum_{j=0}^{i-n-1} a_{n+j} p^j\right)$ and $\left(\sum_{j=0}^{i-n-1} a_{n+j} p^j\right)$ should satisfies the condition for $\mathbb{Z}_p$ for $i>n$. Therefore, the sequence is exact.
+
+Since $\mathbb{Z}_p$ has a subspace topology of $\prod_{i=1}^\infty \mathbb{Z}/p^i\mathbb{Z}$, $\pi_n$ is continuous. Also, I already showed that $\mathbb{Q}_p$ is a topological ring in the previous homework, and the metric topology on $\mathbb{Z}_p$ can be viewed as a induced metric topology of $\mathbb{Q}_p$. Therefore, the multiplication $\mathbb{Z}_p\times\mathbb{Z}_p\rightarrow\mathbb{Q}_p$ is continuous. Since the image is in $\mathbb{Z}_p$, multiplication $\mathbb{Z}_p\times\mathbb{Z}_p\rightarrow\mathbb{Z}_p$ is continuous. Therefore, multiplying $p^n$ (identifying $\mathbb{Z}$ with the image in $\mathbb{Z}_p$) is continuous.
+
+\noindent \textbf{3}
+
+Assume $y\in p^{-n}\mathbb{Z}_p$, then $xy \in \mathbb{Z}_p$ for $x\in p^n\mathbb{Z}_p$. Therefore, $e_p(xy) = 1$ and the integral value is $\int_{p^n \mathbb{Z}_p} dx = p^{-n}$. If $y\in p^{-m}\mathbb{Z}_p\setminus p^{-n}\mathbb{Z}_p$ for some $m>n$, then there exists $z\in p^{n}\mathbb{Z}_p\setminus p^{n+1}\mathbb{Z}_p$ such that $e_p(-zy)\neq 1$. For such $z$, $1_{p^n\mathbb{Z}_p}(x) = 1_{p^n\mathbb{Z}_p}(x+z)$ and by the change of variables, $x\mapsto x+z$, we get
+\begin{equation}
+\begin{split}
+    \int_{\mathbb{Q}_p} 1_{p^n\mathbb{Z}_p}(x)e_p(-xy)dx &= \int_{\mathbb{Q}_p} 1_{p^n\mathbb{Z}_p}(x)e_p(-xy-zy)dx \\
+    &=e_p(-zy)\int_{\mathbb{Q}_p} 1_{p^n\mathbb{Z}_p}(x)e_p(-xy)dx.
+\end{split}
+\end{equation}
+To satisfy the above equality, the integral should be $0$. Therefore, we get
+\begin{equation}
+    \int_{\mathbb{Q}_p} 1_{p^n\mathbb{Z}_p}(x)e_p(-xy)dx=
+    \begin{cases}
+        p^{-n} & y\in p^{-n}\mathbb{Z}_p\\
+        0 & otherwise.
+    \end{cases}
+\end{equation}
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

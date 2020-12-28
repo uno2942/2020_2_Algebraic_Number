@@ -1,0 +1,178 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW4}
+\end{center}
+박성빈, 수학과, 20202120
+
+\noindent \textbf{1}
+Let $U_n = (1/n, \infty)$. Then $\cup_{n=1}^\infty U_n = \mathbb{R}_+$. Since any compact set $C$ is covered by $\{U_n\}$, there exists $N\in\mathbb{N}$ such that $C\subset U_N$. Using L'H\^opital's theorem, we get $\lim_{t\rightarrow \infty} te^{-t} = 0$, so there exists $M\in\mathbb{N}$ such that for $t\geq M$, $e^{-t}\leq 1/t$.
+
+For any $t\in C$, $t\geq 1/N$ and
+\begin{equation}
+    \theta(t) = \sum_{n^2<\frac{M}{\pi t}} e^{-\pi n^2 t} + \sum_{n^2\geq \frac{M}{\pi t}} e^{-\pi n^2 t}\leq \sum_{n^2<\frac{M}{\pi t}} e^{-\pi n^2 t} + \sum_{n^2\geq \frac{M}{\pi t}} \frac{1}{\pi tn^2}<\infty.
+\end{equation}
+Therefore, it converges absolutely. For any $\epsilon>0$, there exists $L\in\mathbb{N}$ such that $\sum_{n=L}^\infty \frac{1}{n^2}<\frac{\pi}{3N}\epsilon$, so if we set $M' = \max\{\frac{M}{\pi N}, L^2\}$, then
+\begin{equation}
+    \abs{\theta(t)-\sum_{n^2<M'} e^{-\pi n^2 t}}\leq \sum_{n^2\geq M'} \frac{1}{\pi tn^2}<\frac{2\epsilon}{3}.
+\end{equation}
+for all $t\in C\subset U_N$. Therefore, $\theta(t)$ converges uniformly on $C$.\\
+
+\noindent \textbf{2}
+Let
+\begin{equation}
+    \hat{f}(\xi) = \int_{-\infty}^\infty e^{-\pi x^2} e^{-2\pi i \xi x }dx.
+\end{equation}
+
+Since $e^{-\pi x^2}$ is in Schwartz space, $\hat{f}$ is also in Schwartz space and
+\begin{equation}
+    \left(\hat{f}\right)'(\xi) =  \int_{-\infty}^\infty e^{-\pi x^2} \pdv{\xi}\left(e^{-2\pi i x \xi}\right)dx = -2\pi i \widehat{\left(xf\right)}(\xi).
+\end{equation}
+Also, computing $\widehat{\left(f'\right)}(\xi)$, we get
+\begin{equation}
+\begin{split}
+    \widehat{\left(f'\right)}(\xi) &= \int_{-\infty}^\infty \pdv{x}\left(e^{-\pi x^2}\right)e^{-2\pi i x \xi} dx = -\int_{-\infty}^\infty e^{-\pi x^2}\pdv{x}\left(e^{-2\pi i x \xi}\right) dx = 2\pi i \xi\hat{f}(\xi)\\
+    &=-2\pi\widehat{\left(xf\right)}(\xi)
+\end{split}
+\end{equation}
+
+Therefore, $\hat{f}$ follows the ODE
+\begin{equation}
+    \left(\hat{f}\right)'(\xi) = -2\pi\xi\hat{f}(\xi)
+\end{equation}
+with $\hat{f}(0) = 1$. Solving the differential equation, we get $\hat{f}(\xi) = e^{-\pi \xi^2}$.\\
+
+\noindent \textbf{3}
+
+Fix $t\neq 0$. Set $g_t(x) = e^{-\pi t x^2}$. For $t\neq 0$, $g$ is again in Schwartz space. Using Poisson summation formula,
+\begin{equation}
+    \theta(t) = \sum_{n\in \mathbb{Z}} g_t(n) = \sum_{n\in \mathbb{Z}} \hat{g_t}(n)
+\end{equation}
+and
+\begin{equation}
+    \hat{g_t}(\xi) = \int_{-\infty}^\infty e^{-\pi t x^2} e^{-2\pi i \xi x}dx = \frac{1}{\sqrt{t}}\int_{-\infty}^\infty \exp{-\pi x^2 -\frac{2\pi i \xi x}{\sqrt{t}}}dx = \frac{1}{\sqrt{t}}\hat{f}\left(\frac{\xi}{\sqrt{t}}\right) = \frac{1}{\sqrt{t}}g_t\left(\frac{\xi}{t}\right) = \frac{1}{\sqrt{t}}g_{t^{-1}}\left(\xi\right),
+\end{equation}
+where $f$ is defined in problem 2.
+
+Therefore, we get
+\begin{equation}
+    \theta(t) = \sum_{n\in \mathbb{Z}} \hat{g_t}(n) = \frac{1}{\sqrt{t}}\sum_{n\in \mathbb{Z}} g_{t^{-1}}\left(n\right) = \frac{1}{\sqrt{t}}\theta\left(\frac{1}{t}\right).
+\end{equation}
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

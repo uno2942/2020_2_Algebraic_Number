@@ -1,0 +1,269 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW5}
+\end{center}
+박성빈, 수학과, 20202120
+
+\noindent \textbf{1}
+
+Let $a,b\in \mathbb{Z}_p$ such that $(a/b)^2 = -1$. Writing $a,b$ by $(a_0, a_1, \ldots), (b_0,b_1,\ldots)$ in $\prod_{i=1}^\infty \quotZ{i}$, we get
+\begin{equation}\label{EQ_1_1}
+    (a_0^2+b_0^2, a_1^2 + b_1^2, \ldots) = (0,0,0,\ldots).
+\end{equation}
+
+Since $(-1)^2 = 1$, $\norm{-1}_{\mathbb{Q}_2} = 1$ and we can assume $\norm{a}_{\mathbb{Q}_2} = \norm{b}_{\mathbb{Q}_2} = 1$ by setting $a \mapsto a/\norm{a}_{\mathbb{Q}_2}$, $b\mapsto b/\norm{a}_{\mathbb{Q}_2}$. Therefore, I can assume that $a_0b_0\neq 0$ in $\mathbb{Z}/p\mathbb{Z}$.
+
+For $p=3$, then there is no way to make $a_0^2+b_0^2 = 0$ in $\mathbb{Z}/3\mathbb{Z}$. Therefore, $\sqrt{-1}\not\in\mathbb{Q}_3$.
+
+To check the $p=5$ case, I'll first show the following proposition:
+\begin{proposition}
+If there exists a solution $t\in\mathbb{Z}$ such that $t^2+1\equiv 0\mod p^k$ for some $k\geq 1$ with odd prime $p$, then we can find $r\in\mathbb{Z}$ such that $(t+rp^k)^2+1\equiv 0\mod p^{k+1}$.
+\end{proposition}
+\begin{proof}
+Let $t^2+1 = s\cdot p^k$ for some $s\in \mathbb{Z}$, then $r$ should satisfies
+\begin{equation}
+    (t+rp^k)^2+1 = sp^k + 2trp^k + r^2p^{2k}\equiv (s+2tr)p^k \equiv 0 \mod p^{k+1}.
+\end{equation}
+
+Therefore, we just need to impose $s+2tr \equiv 0 \mod p$. If $t\equiv 0\mod p$, then $t^2\not\equiv -1\mod p^k$. Therefore, we can set $r = -s/2t$ where $-s/2t$ is computed in the sense of $\mathbb{Z}/p\mathbb{Z}$.
+\end{proof}
+
+Now, let's construct $a_i, b_i$ satisfying \eqref{EQ_1_1} in $\mathbb{Q}_5$. Set $a_0=2$ and $b_i=1$ for all $i$. Using the proposition, we can inductively compute $a_i$. For example, $a_1 = 2+5$, $a_2 = 2+5+2\cdot 25$, $a_3 = 2+5+2\cdot 25 + 125$. Therefore, $\sqrt{-1}\in \mathbb{Q}_5$.
+
+I'll show that $\sqrt{-1}\not\in \mathbb{Q}_2$. Let's rewrite $a = a_0+2a_1+4a_2+\cdots$, $b = b_0+2b_1+4b_2+\cdots$ for $0\leq a_i,b_i<2$. Since $a_0=b_0=1$ and $(1+2a_1)^2+(1+2b_1)^2 \equiv 0 \mod 4$, we get $2\equiv 0\mod 4$, which is contradiction.\\
+
+\noindent \textbf{1.7}
+I'll first show that $\mathbb{A}_\mathbb{Q}^\times$ is a topological group about multiplication.
+\begin{proposition}
+    $\mathbb{A}_\mathbb{Q}^\times$ is a topological group about multiplication. Also,
+    \begin{equation}
+        \left(\prod_{v\in S}U_v\times \prod_{v\not\in S}\mathbb{Z}_v^\times\right)^{-1}=\prod_{v\in S}U_v^{-1}\times \prod_{v\not\in S}\mathbb{Z}_v^\times
+    \end{equation}
+\end{proposition}
+\begin{proof}
+First, I'll show that $\mathbb{Q}_v^\times$ is a topological group about multiplication. In the previous homework, I showed that multiplication is is continuous on $\mathbb{Q}_v$. As induced topology, the multiplication is also continuous on $\mathbb{Q}_v^\times$.
+
+I'll show the inverse map is also continuous. Let $\{x_i\}_{i=1}^\infty$ be a sequence in $\mathbb{Q}_v\setminus\{0\}$ such that converges to $x\neq 0$. Then
+\begin{equation}\label{Eq:inverses}
+    \abs{x_i^{-1}-x^{-1}}_v = \frac{\abs{x-x_i}}{\abs{x_ix}}\rightarrow 0
+\end{equation}
+as $\abs{x}>0$. Since $\mathbb{Q}_v\setminus\{0\}$ is metrizable, it shows that the inverse map is continuous on $\mathbb{Q}_v^\times = \mathbb{Q}_v\setminus\{0\}$.
+
+I need to show that the multiplication and inverse map is continuous on $\mathbb{A}_\mathbb{Q}^\times$. Take an open set $\left(\prod_{v\in S}U_v\times \prod_{v\not\in S}\mathbb{Z}_v^\times\right)^{-1}$ and consider the inverse images of multiplication and inverse map. Since $(\mathbb{Z}_v^\times)(\mathbb{Z}_v^\times) = \mathbb{Z}_v^\times$ and $\left(\mathbb{Z}_v^\times\right)^{-1} = \mathbb{Z}_v^\times$, we just need to take care the coordinates contained in the index set $S$. Since $S$ is finite, now it is easy to check that the multiplication and inverse map is continuous on $\mathbb{A}_\mathbb{Q}^\times$.
+
+Finally, \eqref{Eq:inverses} can be checked by considering bidirectional set inclusions from one to another.
+\end{proof}
+
+\begin{enumerate}
+    \item[(a)] Choose a basis $B = U\times \prod_{v\not\in S}\mathbb{Z}_v^\times$ with finite index set $S$ and an open set $U$ in $\prod_{v\in S}\mathbb{Q}_v^\times$. Furthermore, WLOG, we can assume $U = \prod_{v\in S} U_v$ such that $U_v$ is open in $\mathbb{Q}_v^\times$ by the definition of product topology. Since $0 = \cap_{n\geq 0}v^n \mathbb{Z}_v$ for $v<\infty$, $0$ is a closed set in $\mathbb{Q}_v$. As $\mathbb{Q}_v^\times$ is given by subspace topology of $\mathbb{Q}_v$, $U_v$ is open in $\mathbb{Q}_v$. Let's set $W_v = (U_v)^{-1}$. I claim that 
+\begin{equation}
+    i(B) = \left(\left(\left(\prod_{v\in S} U_v\right)\times \prod_{v\not\in S} \mathbb{Z}_v\right)\times \left(\left(\prod_{v\in S} W_v\right)\times \prod_{v\not\in S} \mathbb{Z}_v\right)\right)\cap i\left(\mathbb{A}_\mathbb{Q}^\times\right).
+\end{equation}
+
+Let's check the equality.
+\begin{enumerate}
+    \item[$\subset$] For $x\in B$, $x\in \left(\left(\prod_{v\in S} U_v\right)\times \prod_{v\not\in S} \mathbb{Z}_v\right)$ and $x^{-1}\in \left(\left(\prod_{v\in S} W_v\right)\times \prod_{v\not\in S} \mathbb{Z}_v\right)$ by the construction of $U_v$ and $W_v$. Therefore, $i(x)$ is contained in the RHS.
+    
+    \item[$\supset$] If $(x,y)\in \mathbb{A}_\mathbb{Q}\times \mathbb{A}_\mathbb{Q}$ in RHS, then $x\in \mathbb{A}_\mathbb{Q}^\times$ and $y= x^{-1}$ to satisfy $(x,y)\in i(\mathbb{A}_\mathbb{Q}^\times)$. Also, if $x_v\not\in \mathbb{Z}_v^\times$ for some $v\not\in S$, then $\norm{x_v}<1$, so $x_v^{-1}\not\in \mathbb{Z}_v$. Therefore, $x_v\in \mathbb{Z}_v^\times$ for all $v\not\in S$. Finally, $x_v\in U_v$ for all $v\in S$. Therefore, $x\in B$.
+\end{enumerate}
+
+I need to show the converse: For any open set $V\times W$ in $\mathbb{A}_\mathbb{Q}\times \mathbb{A}_\mathbb{Q}$, $i^{-1}(V\times W)$ is open in $\mathbb{A}_\mathbb{Q}^\times$, i.e. $i$ is continuous. Let's write
+\begin{equation}
+\begin{split}
+    V &=\left(\prod_{v\in S_1} V_v\right)\times \prod_{v\not\in S_1} \mathbb{Z}_v\\
+    W &=\left(\prod_{v\in S_2} W_v\right)\times \prod_{v\not\in S_2} \mathbb{Z}_v
+\end{split}
+\end{equation}
+such that $V_v$ or $W_v$ is open in $\mathbb{Q}_v$. For Since $\mathbb{Z}_v$ is open in $\mathbb{Q}_v$, we can replace $S_1$ and $S_2$ by $S=S_1\cup S_2$. I claim that for 
+\begin{equation}
+    i^{-1}(V\times W) = \left(\prod_{v\in S} \left(V_v \cap \mathbb{Q}_v^\times\right)\cap \left(W_v \cap \mathbb{Q}_v^\times\right)^{-1}\right)\times \prod_{v\not\in S} \mathbb{Z}^\times_v
+\end{equation}
+
+If I prove the equality, then by the definition of product topology and topology on ideles, we show $i$ is continuous.
+
+\begin{enumerate}
+    \item[$\subset$] If $i(x)\in V\times W$, $x_v\in V_v\cap \mathbb{Q}_v^\times$ and $x_v^{-1}\in W_v\cap \mathbb{Q}_v^\times$ for $v\in S$. If $v\not\in S$, then $x_v, x_v^{-1}\in \mathbb{Z}_v\cap \mathbb{Q}_v^\times = \mathbb{Z}_v\setminus\{0\}$. Therefore, $\norm{x_v}^{-1} = 1$ and $x_v\in \mathbb{Z}_v^\times$.
+    \item[$\supset$] Since $\left(\prod_{v\in S} V_v \cap \mathbb{Q}_v^\times\right)\times \prod_{v\not\in S} \mathbb{Z}^\times_v\subset V\cap \mathbb{A}_\mathbb{Q}^\times$ and $\left(\prod_{v\in S} W_v \cap \mathbb{Q}_v^\times\right)^{-1}\times \prod_{v\not\in S} \mathbb{Z}^\times_v\subset (W\cap \mathbb{A}_\mathbb{Q}^\times)^{-1}$, if $x$ in RHS, then $i(x)\in V\times W$.
+\end{enumerate}
+Therefore, the topology on $\mathbb{A}_\mathbb{Q}^\times$ coincides with the subspace of $i(\mathbb{A}_\mathbb{Q}^\times)\subset \mathbb{A}_\mathbb{Q}\times \mathbb{A}_\mathbb{Q}$.
+
+\item[(b)] WLOG, let's set $V\subset \mathbb{A}_\mathbb{Q}$ by
+\begin{equation}
+    V = \prod_{v\in S}V_v \times \prod_{v\not\in S} \mathbb{Z}_v
+\end{equation}
+such that $S$ is a finite index set and $V_v$ is open in $\mathbb{Q}_v$.
+
+Let's define $U_n\subset \mathbb{A}_\mathbb{Q}^\times$ by 
+\begin{equation}
+    U_n = \{x\in V\cap \mathbb{A}_{\mathbb{Q}}^\times:x_v\in V_v \cap \mathbb{Q}_v^\times\textrm{ for }v\in S\textrm{ and for }S'=\{v\not\in S:x_v\not\in \mathbb{Z}_v^\times\}, \abs{S'} = n\}.
+\end{equation}
+Then $U_n\subset \mathbb{A}_\mathbb{Q}^\times$ for all $n\geq 0$ since only finitely many indexes are not in $\mathbb{Z}_v^\times$. Also, it is open since it is same the union of
+\begin{equation}
+    \prod_{v\in S}(V_v\cap \mathbb{Q}_v^\times)\times \prod_{v\in S'}(\mathbb{Z}_v\cap \mathbb{Q}_v^\times)\times \prod_{v\not\in (S\cup S')}\mathbb{Z}_v^\times.
+\end{equation}
+for all possible $S'$ satisfying $\abs{S'} = n$.
+
+Finally, I'll show that $\cup_{n=0}^\infty U_n = V\cap \mathbb{A}_{\mathbb{Q}}^{\times}$. By the construction of $U_n$, I need to show $\cup_{n=0}^\infty U_n \supset V\cap \mathbb{A}_{\mathbb{Q}}^{\times}$, but for any $x\in V\cap \mathbb{A}_\mathbb{Q}^\times$, there exists $S''$ such that $x_v\not\in \mathbb{Z}_v^\times$ and $x\in V_v \times\mathbb{Q}_v^\times$ for $v\in S$. Therefore, for $v\in S''\setminus S$, $x_v\in \mathbb{Z}_v^\times \cap\mathbb{Q}_v^\times$, and $x\in U_{\abs{S''\setminus S}}$.
+
+\item[(c)] I'll show that $\mathbb{Q}_\infty^\times \times \prod_{p<\infty}\mathbb{Z}_p^\times$ can not be generated by subspace topology. Assume there exists an open set $V\subset \mathbb{A}_\mathbb{Q}$ such that $V\cap \mathbb{A}_\mathbb{Q}^\times = \mathbb{Q}_\infty^\times \times \prod_{p<\infty}\mathbb{Z}_p^\times$. Then there should exists finite index set $S$ such that $U$ is open in $\prod_{v\in S} \mathbb{Q}_v$ and $U\times \prod_{v\not\in S}\mathbb{Z}_v \subset V$. However, if we choose the image of prime $v<\infty$ in $\mathbb{Z}_v$ and let $\alpha = (1,1,\ldots, v, 1,1,\ldots)$, i.e. inserting $v$ in $\mathbb{Z}_v$'s position, then it is not in $\mathbb{Q}_\infty^\times \times \prod_{p<\infty}\mathbb{Z}_p^\times$, but it is in $V\cap \mathbb{A}_\mathbb{Q}^\times$.
+\end{enumerate}
+
+\noindent \textbf{1.8}
+I'll assume the fact in the hint.
+
+Since $f$ is factorizable, computing Fourier transform of each part, we get
+\begin{equation}
+\begin{split}
+    \hat{f_\infty}(\xi_\infty) &= \exp(-\pi \xi_\infty^2)\\
+    \hat{f_p}(\xi_p) &= \hat{1}_{\mathbb{Z}_p}(\xi_p) + \hat{1}_{p^{-1}+p^2\mathbb{Z}_p}(\xi_p)\\
+    &=1_{\mathbb{Z}_p}(\xi_p) + \int_{\mathbb{Q}_p} 1_{p^{-1}+p^2\mathbb{Z}_p}(x_p)e_p(-x_p\xi_p)dx_p\\
+    &=1_{\mathbb{Z}_p}(\xi_p) + \int_{\mathbb{Q}_p} 1_{p^2\mathbb{Z}_p}(x_p)e_p(-(x_p+p^{-1})\xi_p)dx_p\\
+    &=1_{\mathbb{Z}_p}(\xi_p) + e_p(-\xi_p/p)\int_{\mathbb{Q}_p} 1_{p^2\mathbb{Z}_p}(x_p)e_p(-x_p\xi_p)dx_p\\
+    &=1_{\mathbb{Z}_p}(\xi_p) + p^{-2}e_p(-\xi_p/p).
+\end{split}
+\end{equation}
+
+Now, I'll show that $\prod_{v}\hat{f}_v(\xi_v)$ is well-defined. Since $\xi\in\mathbb{A}_\mathbb{Q}$, $\xi_v\in \mathbb{Z}_v$ except finitely many $v$. Let the finite index set such that $\xi_v\not\in \mathbb{Z}_v$ be $S$. Therefore, I need to show that $\prod_{v\not\in S}\hat{f}_v(\xi_v) = \prod_{v\not\in S}(1+v^{-2}e_v(-\xi_v/v))$ converges, but it is easy to show since $\abs{e_v(-\xi_v/v)}\leq 1$, so
+\begin{equation}
+    \sum_{v\not\in S}^\infty \abs{v^{-2}e_v(-\xi_v/v)}\leq \sum_{v=2}^\infty \frac{1}{v^2}<\infty.
+\end{equation}
+Therefore, $\hat{f}$ is well-defined function. However $\hat{f}$ is not Bruhat-Schwartz since it is not multiple of $1_{\mathbb{Z}_p}$ for all $p<\infty$. Also, it does not contradict Theorem 1.7.4 since $f$ is already not Bruhat-Schwartz by the same reason above.\\
+
+\noindent \textbf{1.10}
+
+If $\alpha = 0$, then $e(\alpha u) = 1$ for all $u\in \mathbb{Q}\backslash \mathbb{A}_\mathbb{Q}$. Therefore,
+\begin{equation}
+    \int_{\mathbb{Q}\backslash\mathbb{A}_\mathbb{Q}} 1 du = \left(\int_0^1 1 du_\infty\right)\prod_{p\geq 2}\left(\int_{\mathbb{Z}_p} 1 du_p\right) = 1.
+\end{equation}
+
+If $\alpha\neq 0$, then 
+\begin{equation}
+\begin{split}
+    \int_0^1 e_\infty (\alpha u_\infty) du_\infty &= \int_0^1 \exp(-2\pi i \alpha u_\infty) du_\infty\\
+    \int_{\mathbb{Z}_p} e_p(\alpha u_p)du_p &= \begin{cases}
+    1 & \alpha\in \mathbb{Z}_p\\
+    \abs{\alpha}_p^{-1}\int_{\abs{\alpha}_p\mathbb{Z}_p}e_p(u_p)du_p = 0 & otherwise.
+    \end{cases}
+\end{split}
+\end{equation}
+
+If $\alpha\in \mathbb{Z}$, then $\int_0^1 \exp(-2\pi i \alpha u_\infty) du_\infty = 0$. If $\alpha\not\in \mathbb{Z}$, then $\alpha = a/b$ for some $b\neq 0, 1$, so there exists $p_0$ such that $p_0\mid b$, in other words, $\alpha\not\in \mathbb{Z}_{p_0}$. Since $\alpha\in \mathbb{Z}_p$ except finitely many primes dividing $b$, the infinite product is well-defined and the value is $0$.
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

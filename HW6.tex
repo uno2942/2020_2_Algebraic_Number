@@ -1,0 +1,280 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{HW6}
+\end{center}
+박성빈, 수학과, 20202120
+
+\begin{enumerate}
+    \item[(1)] Let's write the idelic integral:
+    \begin{equation}
+    \begin{split}
+        \xi(f,\chi, s) &= \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x\\
+        &=\left(\int_{\mathbb{R}^\times} x^\nu e^{-\pi x_\infty^2}\tilde{\chi_\infty}(x)\abs{x_\infty}_{\infty}^{s-1} dx_\infty\right)\prod_{p\in S}\left(\int_{\mathbb{Q}_p^\times} p^k\left(1-\frac{1}{p}\right)1_{1+p^k \mathbb{Z}_p}\tilde{\chi_p}(x)\abs{x_p}_{p}^{s-1} \frac{p}{p-1}dx_p\right)\\
+        &\prod_{p\not\in S}\left(\int_{\mathbb{Q}_p^\times} 1_{\mathbb{Z}_p}\widetilde{\chi_p}(x)\abs{x_p}_{p}^{s-1} \frac{p}{p-1}dx_p\right).
+    \end{split}
+    \end{equation}
+    Now, let's compute each part. For $p\in S$,
+    \begin{equation}
+        \begin{split}
+        \left(\int_{\mathbb{Q}_p^\times} 1_{\mathbb{Z}_p}\chi_p(x_p)\abs{x_p}_{p}^{s-1} \frac{p}{p-1}dx_p\right) &=\sum_{m=0}^\infty\int_{p^m\mathbb{Z}^\times_p} \chi_p(x_p)\abs{x_p}_{p}^{s} dx^\times_p\\
+        &=\sum_{m=0}^\infty \left(p^{-s}\chi_p(p)\right)^{-m}\int_{\mathbb{Z}^\times_p} dx^\times_p\\
+        &=\frac{1}{1-\chi(p)p^{-s}}.
+        \end{split}
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\mathbb{Q}_p^\times} 1_{1+p^k \mathbb{Z}_p}\chi_p(x)\abs{x_p}_{p}^{s} dx^\times_p &=\int_{1+p^k \mathbb{Z}_p} dx^\times_p = ...
+    \end{split}
+    \end{equation}
+    Note that $\chi_p(1+p^k\mathbb{Z}_p) = \chi(1)^{-1} = 1$.
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\mathbb{R}^\times} e^{-\pi x_\infty^2}\abs{x_\infty}_{\infty}^{s-1} dx_\infty &= 2\int_0^\infty e^{-\pi x_\infty^2} x_\infty^{s-1}dx_\infty\\
+        &=\int_0^\infty e^{-\pi t} t^{s/2-1}dt = \Gamma(s/2)\pi^{-s/2}
+    \end{split}
+    \end{equation}
+    
+        \begin{equation}
+    \begin{split}
+        \int_{\mathbb{R}^\times} x_\infty e^{-\pi x_\infty^2}\abs{x_\infty}_{\infty}^{s-1} \chi_\infty(x_\infty)dx_\infty &= 2\int_0^\infty e^{-\pi x_\infty^2} x_\infty^{s}dx_\infty\\
+        &=\int_0^\infty e^{-\pi t} t^{(s-1)/2}dt = \Gamma(s/2)\pi^{-s/2}
+    \end{split}
+    \end{equation}
+    
+    \item[2]
+    Using strong approximation theorem,
+    \begin{equation}
+    \begin{split}
+        \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x &=\sum_{\alpha\in \mathbb{Q}^\times} \int_{\alpha\left(\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times\right)} f(x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x\\
+        &=\int_{\left(\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times\right)} \sum_{\alpha\in \mathbb{Q}^\times}f(\alpha x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x.
+    \end{split}
+    \end{equation}
+    Using Poisson's summation formula,
+    \begin{equation}
+        f(0) + \sum_{\alpha\in \mathbb{Q}^\times}f(\alpha x) = \frac{1}{\abs{x}_\mathbb{A}}\left(\hat{f}(0) + \sum_{\alpha\in \mathbb{Q}^\times}\hat{f}\left(\frac{\alpha}{x}\right)\right)
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \sum_{\alpha\in \mathbb{Q}^\times}f(\alpha x)\widetilde{\chi}(\alpha  x)\abs{x}_{\mathbb{A}}^s d^\times x &=\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s\left(\sum_{\alpha\in \mathbb{Q}^\times}\hat{f}\left(\frac{\alpha}{x}\right) - f(0) + \frac{\hat{f}(0)}{\abs{x}_\mathbb{A}}\right) d^\times x\\
+        &=-f(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x + \hat{f}(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^{s-1} d^\times x\\
+        &\phantom{=}+\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\geq 1}} \widetilde{\chi}(x^{-1})\abs{x}_{\mathbb{A}}^{1-s}\sum_{\alpha\in \mathbb{Q}^\times}\hat{f}\left(\alpha x\right)d^\times x.
+    \end{split}
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        \begin{split}
+        \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x &= -f(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x + \hat{f}(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^{s-1} d^\times x\\
+        &\phantom{=}+\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\geq 1}}\sum_{\alpha\in \mathbb{Q}^\times}\left(\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^sf(\alpha x) + \widetilde{\chi}(x^{-1})\abs{x}_{\mathbb{A}}^{1-s}\hat{f}\left(\alpha x\right)\right)d^\times x.
+        \end{split}
+    \end{equation}
+    
+    \begin{equation}
+    AL(\overline{\chi}, 1-s)=A\xi(f, \overline{\chi}, 1-s)=\xi(\hat{f},\overline{\chi},1-s)=\int_{\mathbb{A}_\mathbb{Q}^\times} \hat{f}(x)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x = \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^s d^\times x = \xi(f,\chi,s)
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\mathbb{A}_\mathbb{Q}^\times} \hat{f}(x)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x &= \int_{\mathbb{Q}^\times\backslash\mathbb{A}_\mathbb{Q}^\times} \sum_{n\in\mathbb{Z}\setminus\{0\}}\hat{f}(nx/N)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x
+    \end{split}
+    \end{equation}
+    
+     \begin{equation}
+    \begin{split}
+        \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x &= \int_{\mathbb{Q}^\times\backslash\mathbb{A}_\mathbb{Q}^\times} \sum_{n\in\mathbb{Z}\setminus\{0\}}f(nx)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x
+    \end{split}
+    \end{equation}
+    
+    \begin{equation}
+         \sum_{n\in\mathbb{Z}\setminus\{0\}}\int_{\mathbb{Z}_p^\times} e_p(n x_p/N)1_{p^{-k}\mathbb{Z}_p}(nx_p/N)\overline{\chi}(x_p)d^\times x_p = \sum_{n\in\mathbb{Z}\setminus\{0\}}\int_{\mathbb{Z}_p^\times}  e_p(n x_p/N)1_{\mathbb{Z}_p}(nx_p)\overline{\chi}(x_p)d^\times x_p
+    \end{equation}
+    
+    \begin{equation}
+        \sum_{n\in\mathbb{Z}\setminus\{0\}}\int_{\mathbb{Z}_p^\times} 1_{1+p^k\mathbb{Z}_p}(nx_p)\overline{\chi}(x_p)d^\times x_p
+    \end{equation}
+    
+    Now, let's compute the fourier transform of $f$.
+    \begin{equation}
+        p^k\left(1-p^{-1}\right)\int_{1+p^k\mathbb{Z}_p} e_p(-x_py_p)dy_p = \left(1-p^{-1}\right)e_p(-y)1_{p^{-k}\mathbb{Z}_p}(y)
+    \end{equation}
+    
+    \begin{equation}
+        \int_{\mathbb{Q}_p} 1_{\mathbb{Z}_p}(x)e_p(-xy)dx = 1_{\mathbb{Z}_p}(y)
+    \end{equation}
+    
+    \begin{equation}
+        \int_{\mathbb{R}} e^{-\pi t^2} e^{-2\pi i xt} dt = e^{-\pi x^2}.
+    \end{equation}
+    
+    
+    \begin{equation}
+        \hat{f}(x) = e^{-\pi x_\infty^2}\prod_{p\in S}\left(1-p^{-1}\right)e_p(-x_p)1_{p^{-k}\mathbb{Z}_p}(x_p)\prod_{p\not\in S}1_{\mathbb{Z}_p}(x_p).
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\mathbb{Z}^\times_p}e_p(- x_p)\overline{\chi(x_p)}dx^\times_p &= \sum_{k=1}^{p-1}\int_{k+p\mathbb{Z}_p}e_p(- x_p)\overline{\chi(k)}dx^\times_p
+    \end{split}
+    \end{equation}
+    
+    \begin{equation}
+        \begin{split}
+        \int_{\mathbb{A}_\mathbb{Q}^\times} f(x)\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x &= -f(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x + \hat{f}(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{-s} d^\times x\\
+        &\phantom{=}+\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\geq 1}}\sum_{\alpha\in \mathbb{Q}^\times}\left(\widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s}f(\alpha x) + \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^{s}\hat{f}\left(\alpha x\right)\right)d^\times x.
+        \end{split}
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        &-f(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{1-s} d^\times x + \hat{f}(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{-s} d^\times x\\
+        &=-f(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^{s-1} d^\times x + \hat{f}(0)\int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\overline{\chi}}(x)\abs{x}_{\mathbb{A}}^{-s} d^\times x
+    \end{split}
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        \int_{\substack{\mathbb{Q}^\times\backslash \mathbb{A}_\mathbb{Q}^\times \\ \abs{x}_\mathbb{A}\leq 1}} \widetilde{\chi}(x)\abs{x}_{\mathbb{A}}^{s} d^\times x &= \int_0^1 x^{s-1}dx \int_{\mathbb{Z}^\times_p}\chi(x_p)\abs{x_p}_p^{s-1}dx_p\int_{\mathbb{Z}^\times_p}\\
+        &=\sum_{k=1}^{p-1}\int_{\mathbb{Z}_p}\chi(k+px_p)dx_p
+    \end{split}
+    \end{equation}
+    
+    \begin{equation}
+        \pi^{-s/2}\Gamma(s/2)L(s,\chi) = W(\chi)N^{-s}\pi^{\frac{s-1}{2}}\Gamma\left(\frac{1-s}{2}\right)L(1-s, \overline{\chi})
+    \end{equation}
+    
+    \begin{equation}
+        L(1-s, \overline{\chi}) = \pi^{-s+1/2}N^sW(\chi)\Gamma(s/2)\Gamma^{-1}((1-s)/2)
+    \end{equation}
+    
+    \begin{equation}
+    \begin{split}
+        L^*(\overline{\chi}, 1-s) &= \Gamma\left(\frac{1-s+v}{2}\right)\pi^{-\frac{1-s+v}{2}}L(\overline{\chi}, 1-s)\\
+        &=\pi^{-s/2}\Gamma(s/2)
+    \end{split}
+    \end{equation}
+    
+    
+    
+    
+\end{enumerate}
+%________________________________________________________________________
+\end{document}
+
+%================================================================================

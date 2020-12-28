@@ -1,0 +1,455 @@
+%Calculus Homework
+\documentclass[a4paper, 12pt]{article}
+
+%================================================================================
+%Package
+	\usepackage{amsmath, amsthm, amssymb, latexsym, mathtools, mathrsfs, physics}
+	\usepackage{dsfont, txfonts, soul, stackrel, tikz-cd, graphicx, titlesec, etoolbox}
+	\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+	\usepackage{fancyhdr}
+	\usepackage[shortlabels]{enumitem}
+	\usepackage[pdfmenubar=true, pdfborder	={0 0 0 [3 3]}]{hyperref}
+	\usepackage{kotex}
+
+%================================================================================
+\usepackage{verbatim}
+\usepackage{physics}
+\usepackage{makebox}
+\usepackage{pst-node}
+
+%================================================================================
+%Layout
+	%Page layout
+	\addtolength{\hoffset}{-50pt}
+	\addtolength{\headheight}{+10pt}
+	\addtolength{\textwidth}{+75pt}
+	\addtolength{\voffset}{-50pt}
+	\addtolength{\textheight}{+75pt}
+	\newcommand{\Space}{1em}
+	\newcommand{\Vspace}{\vspace{\Space}}
+	\newcommand{\ran}{\textrm{ran }}
+	\setenumerate{listparindent=\parindent}
+
+%================================================================================
+%Statement
+	\newtheoremstyle{Mytheorem}%
+	{1em}{1em}%
+	{\slshape}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\newtheoremstyle{Mydefinition}%
+	{1em}{1em}%
+	{}{}%
+	{\bfseries}{.}%
+	{ }{}
+
+	\theoremstyle{Mydefinition}
+	\newtheorem{statement}{Statement}
+	\newtheorem{definition}[statement]{Definition}
+	\newtheorem{definitions}[statement]{Definitions}
+	\newtheorem{remark}[statement]{Remark}
+	\newtheorem{remarks}[statement]{Remarks}
+	\newtheorem{example}[statement]{Example}
+	\newtheorem{examples}[statement]{Examples}
+	\newtheorem{question}[statement]{Question}
+	\newtheorem{questions}[statement]{Questions}
+	\newtheorem{problem}[statement]{Problem}
+	\newtheorem{exercise}{Exercise}[section]
+	\newtheorem*{comment*}{Comment}
+	%\newtheorem{exercise}{Exercise}[subsection]
+
+	\theoremstyle{Mytheorem}
+	\newtheorem{theorem}[statement]{Theorem}
+	\newtheorem{corollary}[statement]{Corollary}
+	\newtheorem{corollaries}[statement]{Corollaries}
+	\newtheorem{proposition}[statement]{Proposition}
+	\newtheorem{lemma}[statement]{Lemma}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimproof}{Proof of claim}[claim]
+	\newenvironment{myproof1}[1][\proofname]{%
+  \proof[\textit Proof of problem #1]%
+}{\endproof}
+
+%================================================================================
+%Header & footer
+	\fancypagestyle{myfency}{%Plain
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\fancypagestyle{myfirstpage}{%Firstpage
+	\fancyhf{}
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}}
+
+	\pagestyle{myfency}
+
+%================================================================================
+
+%***************************
+%*** Additional Command ****
+%***************************
+
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\co}{co}
+\DeclareMathOperator{\ball}{ball}
+\DeclareMathOperator{\wk}{wk}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\newcommand{\quotZ}[1]{\ensuremath{\mathbb{Z}/p^{#1}\mathbb{Z}}}
+%================================================================================
+%Document
+\begin{document}
+\thispagestyle{myfirstpage}
+\begin{center}
+	\Large{Project}
+\end{center}
+박성빈, 수학과, 20202120
+
+I'll first prove some technical propositions.
+\begin{proposition}\label{Prop:Inverse}
+If there exists a sequence $\{a_n\}_{n=1}^\infty\subset \mathbb{R}$ such that $a_n>1$ for all $n$, $\prod_{n=1}^\infty (1+a_n)$ is well-defined and not zero, then
+\begin{equation*}
+    \left(\prod_{n=1}^\infty (1+a_n)\right)^{-1} = \prod_{n=1}^\infty (1+a_n)^{-1}
+\end{equation*}
+\end{proposition}
+\begin{proof}
+Let $c_i = \prod_{n=1}^i (1+a_n)$ and $c = \prod_{n=1}^\infty (1+a_n)$, then $\abs{c_i-c}\rightarrow 0$ as $i\rightarrow \infty$. Then,
+\begin{equation*}
+    \abs{\frac{1}{c_i}-\frac{1}{c}} = \frac{\abs{c-c_i}}{\abs{cc_i}},
+\end{equation*}
+and $0<\frac{c^2}{2}<\abs{c_i c}$ if we set $i$ large enough. Therefore, it converges to $0$, so we get the equality.
+\end{proof}
+
+Let's define an $L$-function
+\begin{equation*}
+    L(s,\chi) = \sum_{n\geq 1}\frac{\chi(n)}{n^s},s\in\mathbb{C}
+\end{equation*}
+for $\Re(s)>1$.
+\begin{proposition}
+The $L$-function can be rewritten by
+\begin{equation*}
+    L(s,\chi) = \prod_{p\textrm{ prime}}\left(1-\frac{\chi(p)}{p^s}\right)^{-1}
+\end{equation*}
+for $\Re(s)>1$.
+\end{proposition}
+\begin{proof}
+
+If $\Re(s)>1$, then 
+\begin{equation*}
+    \abs{\sum_{n\geq 1}\frac{\chi(n)}{n^s}}\leq \sum_{n\geq 1}\frac{1}{\abs{e^{s\log n}}} = \sum_{n\geq 1}\frac{1}{n^{\Re(s)}} = \infty,
+\end{equation*}
+so $L(s,\chi)$ converges absolutely; note that $\abs{\chi(n)}_\infty  = 1$.
+
+Again, for $\Re(s)>1$,
+\begin{equation*}
+    \sum_{p\textrm{ prime}}^\infty \frac{\chi(p)}{p^s}
+\end{equation*}
+converges absolutely, we get the convergence of
+\begin{equation*}
+    \prod_{p\textrm{ prime}}\left(1-\frac{\chi(p)}{p^s}\right).
+\end{equation*}
+(Note that the convergence of infinite product implies the convergence point is not zero.)
+
+Now, I'll show that $L(s,\chi)\prod_{p\textrm{ prime}}\left(1-\frac{\chi(p)}{p^s}\right) = 1$. For arbitrary small $\epsilon>0$, there exists $N$ such that
+\begin{equation*}
+    \sum_{n=N+1}^\infty \frac{1}{n^s}<\epsilon.
+\end{equation*}
+
+Let's try to calculate $\left(1-\frac{\chi(2)}{2^s}\right)L(s,\chi)$, then it is
+\begin{equation*}
+\begin{split}
+    \left(1-\frac{\chi(2)}{2^s}\right)L(s,\chi) &= \left(1+\frac{\chi(2)}{2^s}+\frac{\chi(3)}{3^s} + \frac{\chi(4)}{4^s}+\cdots\right) - \left(\frac{\chi(2)}{2^s}+\frac{\chi(4)}{4^s}+\frac{\chi(6)}{6^s} + \frac{\chi(8)}{8^s}+\cdots\right)\\
+    &=1+\frac{\chi(3)}{3^s}+\frac{\chi(5)}{5^s}+\cdots
+\end{split}
+\end{equation*}
+
+If we multiply $\left(1-\frac{\chi(3)}{3^s}\right)$ on LHS, then it becomes
+\begin{equation*}
+\begin{split}
+    \left(1-\frac{\chi(3)}{3^s}\right)\left(1-\frac{\chi(2)}{2^s}\right)L(s,\chi) &= \left(1+\frac{\chi(3)}{3^s}+\frac{\chi(5)}{5^s} + \frac{\chi(7)}{7^s}+\cdots\right) - \left(\frac{\chi(3)}{3^s}+\frac{\chi(9)}{9^s}+\frac{\chi(15)}{15^s} + \frac{\chi(21)}{21^s}+\cdots\right)\\
+    &=1+\frac{\chi(5)}{5^s}+\frac{\chi(7)}{7^s}+\cdots
+\end{split}
+\end{equation*}
+
+It shows that
+\begin{equation*}
+    \abs{L(s,\chi)\prod_{p=2}^{N\textrm{th prime}}\left(1-\frac{\chi(p)}{p^s}\right)-1}\leq \sum_{n=N+1}^\infty \frac{1}{n^s}<\epsilon.
+\end{equation*}
+and by taking limit, we get $L(s,\chi)\prod_{p\textrm{ prime}}\left(1-\frac{\chi(p)}{p^s}\right) = 1$. Using proposition \ref{Prop:Inverse}, we get
+\begin{equation*}
+    L(s,\chi) = \prod_{p\textrm{ prime}}\left(1-\frac{\chi(p)}{p^s}\right)^{-1}.
+\end{equation*}
+\end{proof}
+
+
+
+
+
+
+I'll also check the properties of primitive character.
+\begin{proposition}\label{prop_char}
+Let $\chi$ be a non-trivial primitive Dirichlet character with conductor $N$, then for any $d\mid N$, $d<N$, and $a\in \mathbb{Z}$,
+\begin{equation*}
+    \sum^N_{\substack{n=1 \\ n\equiv a \textrm{ mod } d}} \chi(n) = 0.
+\end{equation*}
+
+For $d=1$, we interpret the above equation by
+\begin{equation*}
+    \sum^N_{n=1} \chi(n) = 0.
+\end{equation*}
+
+\end{proposition}
+\begin{proof}
+For $d=1$, choose $b\in \mathbb{Z}$ such that $\chi(b)\neq 1$ since $\chi$ is non-trivial. Then,
+\begin{equation*}
+    \sum^N_{n=1} \chi(n) = \sum^N_{n=1} \chi(n+b) = \chi(b)\sum^N_{n=1} \chi(n).
+\end{equation*}
+Therefore, $\sum^N_{n=1} \chi(n) = 0$.
+
+Let's assume $1<d<N$. Since $\chi$ has conductor $N$, there exists $m,n$ such that $m\equiv n \mod d$, $(mn, N) = 1$, and $\chi(m) \neq \chi(n)$. Now, set $c = n/m$ in $\left(\mathbb{Z}_N\right)^\times$, then $c\equiv 1\mod d$ and $\chi(c)\neq 1$. Therefore,
+\begin{equation*}
+    \sum^N_{\substack{n=1 \\ n\equiv a \textrm{ mod } d}} \chi(n) = \sum_{k=1}^{N/d} \chi(a+kd) = \sum_{k=1}^{N/d} \chi(ca+ckd) = \chi(c)\sum_{k=1}^{N/d} \chi(a+kd).
+\end{equation*}
+Therefore, 
+\begin{equation*}
+    \sum^N_{\substack{n=1 \\ n\equiv a \textrm{ mod } d}} \chi(n).
+\end{equation*}
+\end{proof}
+
+From now on, I'll prove the main theorem.
+
+\begin{theorem}
+Let $\chi$ be a primitive Dirichlet character with conductor $N$ such that $\chi(-1)=1$. Let
+\begin{equation*}
+    \Lambda(s, \chi) = \pi^{-s/2}\Gamma(s,\chi)L(s,\chi).
+\end{equation*}
+\begin{enumerate}
+    \item[(1)] $\Lambda(s,\chi)$ has meromorphic continuation to all $s$.
+    \item[(2)] In fact, if $\chi\neq 1$, it is entire, while $\chi = 1$, it is analytic for all $s$ except $s=0$ or $s=1$, where it has a simple poles.
+    \item[(3)] It has the following functional equation
+    \begin{equation*}
+        \Lambda(s,\chi) = W(\chi)N^{-s}\Lambda(1-s, \overline{\chi}).
+    \end{equation*}
+    Here, $W(\chi)$ is the Gauss sum defined by
+    \begin{equation*}
+        W(\chi) = \sum_{n\mod N}\chi(n)e^{2\pi i \frac{n}{N}}.
+    \end{equation*}
+\end{enumerate}
+\end{theorem}
+
+
+\begin{proof}
+
+
+I'll first assume $\chi\neq 1$. By the assumption, take a primitive Dirichlet character $\chi$ with conductor $N$ and $\chi(-1) = 1$. 
+
+I'll first check
+\begin{equation}\label{Eq:c_1}
+    \sum_{n \mod N}\chi(n)e^{2\pi i \frac{nm}{N}} = \overline{\chi}(m)W(\chi).
+\end{equation}
+Our character is non-trivial, so we can apply the above proposition \ref{prop_char}. For $m\equiv 0\mod N$, we can easily get the sum $0$. If $(N,m) = 1$, then $m\left(\mathbb{Z}_N\right)^\times = \left(\mathbb{Z}_N\right)^\times$, so $\chi(m)\neq 0$ and
+\begin{equation*}
+    \sum_{n \mod N}\chi(nm)e^{2\pi i \frac{nm}{N}} = \sum_{n \mod N}\chi(n)e^{2\pi i \frac{n}{N}} = W(\chi).
+\end{equation*}
+If $(m,N) = k>1$, then
+\begin{equation*}
+     \sum_{n \mod N}\chi(n)e^{2\pi i \frac{nm}{N}} = \sum_{n=0}^{k-1}\sum_{j=0}^{\frac{N}{k}-1}\chi(\frac{N}{k}n+j)e^{2\pi i \frac{(\frac{N}{k}n+j)m}{N}} = \sum_{n=0}^{k-1}\sum_{j=0}^{\frac{N}{k}-1}\chi(\frac{N}{k}n+j)e^{2\pi i \frac{mj}{N}} = \sum_{j=0}^{\frac{N}{k}-1}e^{2\pi i \frac{mj}{N}}\sum_{n=0}^{k-1}\chi(\frac{N}{k}n+j)
+\end{equation*}
+
+Since $$\sum_{n=0}^{k-1}\chi(\frac{N}{k}n+j) = \sum^N_{\substack{n=0 \\ n\equiv j \textrm{ mod } N/k}} \chi(n) ,$$ we can again apply the proposition and get $0$. It finishes the proof of \eqref{Eq:c_1}.
+
+Also, we get
+\begin{equation*}
+\begin{split}
+    \phi(N)\abs{W(\chi)}^2 &= \sum_{m=1}^{N} \chi(m)\overline{\chi}(m)W(\chi)\overline{W}(\chi)\\
+    &=\sum_{m=1}^N \sum_{n \textrm{ mod } N}\chi(n)e^{2\pi i \frac{nm}{N}}\sum_{n' \textrm{ mod } N}\overline{\chi}(n')e^{-2\pi i \frac{n'm}{N}}\\
+    &=\sum_{n \textrm{ mod } N}\sum_{n' \textrm{ mod } N}\chi(n)\overline{\chi}(n')\sum_{m=1}^N e^{-2\pi i \frac{(n-n')m}{N}}\\
+    &=N\sum_{n \textrm{ mod } N}\sum_{n' \textrm{ mod } N}\chi(n)\overline{\chi}(n')\delta(n-n') = N\phi(N)
+\end{split}
+\end{equation*}
+where $\phi$ is the Euler phi function. ($\chi(n)\neq 0$ if and only if $(n,N)\neq 1$.) It shows $\abs{W(\chi)} = \sqrt{N}$. Furthermore, we can also prove
+
+\begin{equation*}
+\begin{split}
+     \sum_{m\textrm{ mod } N}e^{2\pi i \frac{n'm}{N}}\overline{\chi}(-m)W(\chi) &= \sum_{m\textrm{ mod } N}e^{2\pi i \frac{n'm}{N}}\sum_{n\textrm{ mod }N} \chi(n)e^{-2\pi i \frac{nm}{N}}\\
+    &=\sum_{n\textrm{ mod }N} \chi(n)\sum_{m\textrm{ mod } N} e^{2\pi i \frac{(n'-n)m}{N}}\\
+    &=N\chi(n').
+\end{split}
+\end{equation*}
+
+It shows
+\begin{equation*}
+    \chi(n) = \frac{\chi(-1)W(\chi)}{N}\sum_{m\textrm{ mod } N}\overline{\chi}(m)e^{2\pi i \frac{nm}{N}}
+\end{equation*}
+
+I'll first prove some lemmas which will be used later.
+\begin{lemma}
+    For a Schwartz function $h:\mathbb{R}\rightarrow\mathbb{R}$, we get
+    \begin{equation*}
+        \sum_{n=1}^\infty \abs{h(n)}<\infty.
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    By the definition of Schwartz function, we get
+    \begin{equation*}
+        \lim_{n\rightarrow} n^2{h(n)}\rightarrow 0.
+    \end{equation*}
+    Therefore, there exists $N>0$ such that
+    \begin{equation*}
+        \sum_{n=N}^\infty \abs{h(n)}<\sum_{n=N}^\infty \frac{1}{n^2}<\infty.
+    \end{equation*}
+    Therefore, we get the result.
+\end{proof}
+
+\begin{lemma}
+    Fix $m,N\in\mathbb{N}$. For a Schwartz function $h:\mathbb{R}\rightarrow\mathbb{R}$, we get
+    \begin{equation*}
+        \sum_{n\in\mathbb{Z}}h(n)e^{2\pi i \frac{nm}{N}} = \sum_{n\in\mathbb{Z}}\hat{h}\left(n-\frac{m}{N}\right),
+    \end{equation*}
+    where $\hat{h}$ is the Fourier transformation of $h$.
+\end{lemma}
+\begin{proof}
+Since $\abs{e^{2\pi i \frac{mx}{N}}}=1$, $h(x)e^{2\pi i \frac{mx}{N}}$ is a Schwartz function. Computing Fourier transform of the function, we get
+\begin{equation*}
+    \hat{h}(k) = \int_\mathbb{R} h(x) e^{2\pi i \frac{mx}{N}}e^{-2\pi i k x} dx = \int_\mathbb{R} h(x) e^{-2\pi i \left(k-\frac{m}{N}\right)x} dx = \hat{h}\left(k-\frac{m}{N}\right).
+\end{equation*}
+By Poisson summation formula, we get the result.
+\end{proof}
+
+Take a Schwartz function $h$ on $\mathbb{R}$.
+Then,
+\begin{equation*}
+\begin{split}
+    \sum_{n\in\mathbb{Z}}\chi(n)h(n) &= \frac{\chi(-1)W(\chi)}{N}\sum_{n\in \mathbb{Z}}\sum_{m\textrm{ mod }N}\overline{\chi}(m)h(n)e^{2\pi i \frac{mn}{N}}\\
+    &=\frac{\chi(-1)W(\chi)}{N}\sum_{m\textrm{ mod }N}\overline{\chi}(m)\sum_{n\in \mathbb{Z}}h(n)e^{2\pi i \frac{mn}{N}}~~(\textrm{By Fubini's theorem})\\
+    &=\frac{\chi(-1)W(\chi)}{N}\sum_{m\textrm{ mod }N}\overline{\chi}(m)\sum_{n\in \mathbb{Z}}\hat{h}\left(n-\frac{m}{N}\right)\\
+    &=\frac{W(\chi)}{N}\sum_{m\in \mathbb{Z}}\overline{\chi}(-m)\hat{h}\left(-\frac{m}{N}\right)\\
+    &=\frac{W(\chi)}{N}\sum_{m\in \mathbb{Z}}\overline{\chi}(m)\hat{h}\left(\frac{m}{N}\right)
+\end{split}
+\end{equation*}
+
+Let's set $h_t(x) = \exp(-\pi t x^2)$, then $\hat{h}(k) = \frac{1}{\sqrt{t}}h_{t^{-1}}(k)$. Using this relation, we get
+\begin{equation*}
+    \theta_\chi(t) = \frac{1}{2}\sum_{n\in\mathbb{Z}}\chi(n)h_t(n) = \frac{W(\chi)}{2\sqrt{t}N}\sum_{m\in \mathbb{Z}}\overline{\chi}(m)h_{t^{-1}}\left(\frac{m}{N}\right) = \frac{W(\chi)}{\sqrt{t}N}\theta_{\overline{\chi}}\left(\frac{1}{N^2 t}\right).
+\end{equation*}
+
+I'll show the integrability of $\int_0^\infty \theta_\chi(t)t^{s/2-1}dt$ for all $s$.
+\begin{equation*}
+\begin{split}
+    \abs{\int_0^\infty \theta_\chi(t)t^{s/2-1}dt} &\leq \abs{\int_0^1 \theta_\chi(t)t^{s/2-1}dt} + \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}\\
+    &\leq \abs{\int_{1/N^2}^\infty \frac{1}{t}\theta_{\chi}\left(\frac{1}{N^2t}\right)\left(\frac{1}{N^2 t}\right)^{s/2}dt}+ \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}\\
+    &=\abs{\int_{1/N^2}^\infty \frac{N}{W(\chi)\sqrt{t}}\theta_{\overline{\chi}}(t)N^{-s}t^{-s/2}dt}+ \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}\\
+    &=N^{-s+\frac{1}{2}}\abs{\int_{1/N^2}^\infty \theta_{\overline{\chi}}(t)t^{(1-s)/2-1}dt}+ \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}.
+\end{split}
+\end{equation*}
+
+Since $\chi(0) = 0$,
+\begin{equation*}
+\begin{split}
+    \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}&\leq\int_1^\infty \abs{\sum_{n\geq 1}\chi(n)e^{-\pi n^2 t}t^{s/2-1}}dt\\
+    &\leq \sum_{n\geq 1} \int_1^\infty e^{-\pi n^2 t}\abs{t^{s/2-1}}dt\\
+    &=\sum_{n\geq 1} \int_1^\infty e^{-\pi n^2 t}t^{\Re(s)/2-1}dt
+\end{split}
+\end{equation*}
+
+Now, I need a lemma.
+\begin{lemma}
+Fix $s\in\mathbb{R}$, then there exists $L>1$ such that for $n\geq L$,
+\begin{equation*}
+    e^{-\pi n^2 t}t^{s/2-1}\leq e^{-\pi (n-1)^2 t}
+\end{equation*}
+for $t\geq 1/N^2$.
+\end{lemma}
+\begin{proof}
+It is enough to show that for any $M\in\mathbb{N}$, there exists $L$ such that $f(t)=t^M e^{(-2\pi L+1)t}\leq 1$ for all $t\geq 1$. Since $f'(t) = Mt^{M-1}e^{(-2\pi L+1)t} + (-2\pi L+1)t^M e^{(-2\pi L+1)t}$ is zero at $t=\frac{M}{2\pi L-1}$, if we set $L$ large enough, we can make the extreme point less than $1/N^2$. After the extreme point, $f(t)$ decreases monotonically and $f(1) = e^{-2\pi L+1}<1$ for $L>1$. Therefore, we get $f(t)\geq 1$ for all $t\geq 1/N^2$.
+\end{proof}
+
+Using the lemma to the Schwartz function $e^{-\pi n^2 t}$, we get
+\begin{equation*}
+    \abs{\int_1^\infty \theta_\chi(t)t^{s/2-1}dt}\leq \sum_{1\leq n\leq N} \int_1^\infty e^{-\pi n^2 t}t^{\Re(s)/2-1}dt+\sum_{n\geq N} \int_1^\infty e^{-\pi n^2 t}dt<\infty.
+\end{equation*}
+
+Applying lemma for $t\geq \frac{1}{N^2}$ repeatedly, we also get $\abs{\int_{1/N^2}^\infty \theta_{\overline{\chi}}(t)t^{(1-s)/2-1}dt}<\infty$. Therefore, $\int_0^\infty \theta_\chi(t)t^{s/2-1}dt$ is well-defined for all $s$ in $L^1$.
+
+Let's check the integral is entire on $\mathbb{C}$. Since $t^{s/2-1} = \exp((s/2-1)\log t)$, writing $s= x+iy$ $\pdv{x}t^{s/2-1} = \frac{\log t}{2}t^{s/2-1}$ and $\pdv{y}t^{s/2-1} = i\frac{\log t}{2}t^{s/2-1}$. Since any logarithm function increases slower than any polynomial functions, 
+\begin{equation}\label{Eq:Entire}
+    \abs{\int_0^\infty \theta_\chi(t)\frac{\log t}{2}t^{s/2-1}dt}\leq \abs{\int_0^1 \theta_\chi(t)t^{s/2-2}dt} + \abs{\int_1^\infty \theta_\chi(t)t^{s/2}dt}<\infty.
+\end{equation}
+Therefore, we can interchange the derivative and integral, and the integral is at least $C^1$ function for $s$. Also
+\begin{equation*}
+    \pdv{\bar{s}}\int_0^\infty \theta_\chi(t)t^{s/2-1}dt = \int_0^\infty \theta_\chi(t)\pdv{\bar{s}}t^{s/2-1}dt = 0.
+\end{equation*}
+Therefore, the integral is entire for all $s$.
+
+I'll show that for $\Re(s)>1$, $\int_0^\infty \theta_\chi(t)t^{s/2-1}dt = \pi^{-s/2}\Gamma(s/2)L(s,\chi)$:
+
+
+\begin{equation}\label{Eq:i_1}
+\begin{split}
+    \int_0^\infty \theta_\chi(t)t^{s/2-1}dt &=\frac{1}{2}\int_0^\infty \sum_{n\in\mathbb{Z}}\chi(n) e^{-\pi n^2 t}t^{s/2-1}dt\\
+    &=\int_0^\infty \sum_{n\geq 1}\chi(n) e^{-\pi n^2 t}t^{s/2-1}dt~~(\because \chi(-1)=1)\\
+    &=\sum_{n\geq 1}\chi(n)\int_0^\infty e^{-\pi n^2 t}t^{s/2-1}dt\\
+    &=\sum_{n\geq 1}\frac{\chi(n)}{(\pi n^2)^{s/2}}\int_0^\infty e^{-t}t^{s/2-1}dt\\
+    &=\pi^{-s/2}\sum_{n\geq 1}\frac{\chi(n)}{n^s}\Gamma(s/2)\\
+    &=\pi^{-s/2}\Gamma(s/2)L(s,\chi).
+\end{split}
+\end{equation}
+
+Also, we can get the functional equation by calculation:
+\begin{equation*}
+\begin{split}
+    \int_0^\infty \theta_\chi(t)t^{s/2-1}dt &= \frac{W(\chi)}{N}\int_0^\infty \theta_{\overline{\chi}}\left(\frac{1}{N^2 t}\right) t^{s/2-3/2}dt\\
+    &=\frac{W(\chi)}{N^3}\int_0^\infty \theta_{\overline{\chi}}(t) \left(\frac{1}{N^2 t}\right)^{s/2-3/2}t^{-2}dt\\
+    &=W(\chi)N^{-s}\int_0^\infty \theta_{\overline{\chi}}(t) t^{(1-s)/2-1}dt\\
+    &=W(\chi)N^{-s}\Lambda(1-s, \overline{\chi}).
+\end{split}
+\end{equation*}
+
+It ends the proof for the non-trivial character case. Now, assume $\chi = 1$. The main difference between non-trivial and trivial case is whether $\chi(0) = 0$ or $1$. In \eqref{Eq:i_1}, we ignored $n=0$ case at the last step since $\chi(0) = 0$. For trivial character, however, we should remove the $\chi(0)$, so we need to defined $\theta_\chi$ by
+\begin{equation*}
+    \theta_\chi(t) = \frac{1}{2}\sum_{\mathbb{Z}\setminus\{0\}} e^{-\pi n^2 t}.
+\end{equation*}
+Using this definition, the Poisson summation formula becomes
+\begin{equation*}
+    \frac{1}{2} + \theta_\chi(t) = \frac{1}{2\sqrt{t}} + \frac{1}{\sqrt{t}}\theta_\chi\left(\frac{1}{t}\right),
+\end{equation*}
+
+and repeating the computation we did before, it becomes
+\begin{equation*}
+\begin{split}
+    \int_0^\infty \theta_\chi(t)t^{s/2-1}dt &= \int_{0}^1 \theta_{\chi}(t)t^{s/2-1}dt+ \int_1^\infty \theta_\chi(t)t^{s/2-1}dt\\
+    &=\int_1^\infty \theta_\chi\left(\frac{1}{t}\right)t^{-s/2-1}dt+ \int_1^\infty \theta_\chi(t)t^{s/2-1}dt\\
+    &=\int_1^\infty \left(\frac{\sqrt{t}}{2}+\sqrt{t}\theta_\chi(t)-\frac{1}{2}\right)t^{-s/2-1}dt+ \int_1^\infty \theta_\chi(t)t^{s/2-1}dt\\
+    &=\frac{1}{2}\int_1^\infty (\sqrt{t}-1)t^{-s/2-1}dt + \int_1^\infty \theta_\chi(t)\left(t^{s/2-1}+t^{(1-s)/2-1}\right)dt\\
+\end{split}
+\end{equation*}
+
+In the final line, $\frac{1}{2}\int_1^\infty (\sqrt{t}-1)t^{-s/2-1}dt = \frac{1}{s-1}-\frac{1}{s}$ at $\Re(s)>1$ and second term is well-defined for all $s\in \mathbb{C}$. Furthermore, it is entire since it is at least $C^1$ and partial derivative about $\bar{s}$ is $0$; it is easy to prove by repeating the similar argument like \eqref{Eq:Entire}. As $\frac{1}{s-1}-\frac{1}{s}$ is already analytic except $s=0,1$, by the uniqueness of analytic continuation to $\mathbb{C}\setminus\{0,1\}$, we get $\frac{1}{s-1}-\frac{1}{s} + \int_1^\infty \theta_\chi(t)\left(t^{s/2-1}+t^{(1-s)/2-1}\right)$ is the meromorphic continuation of $\Lambda(s, \chi)$. 
+
+To check the functional equation, we need to set $N$ and compute $W(\chi)$. We just set $N=1$ and $W(\chi) = \chi(0) = 1$. Then,
+\begin{equation*}
+\begin{split}
+    \int_0^\infty \theta_\chi(t)t^{s/2-1}dt &= \int_0^\infty \left(\frac{1}{2\sqrt{t}} + \frac{1}{\sqrt{t}}\theta_\chi\left(\frac{1}{t}\right)-\frac{1}{2}\right) t^{s/2-1}dt\\
+    &=\frac{1}{s-1}-\frac{1}{s} + \int_0^\infty \theta_\chi(t) t^{(1-s)/2-1}dt\\
+    &=\Lambda(1-s, \overline{\chi})
+\end{split}
+\end{equation*}
+\end{proof}
+%________________________________________________________________________
+\end{document}
+
+%================================================================================
